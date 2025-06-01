@@ -16,7 +16,21 @@ const corsOptions = {
   credentials: true,
 };
 
+
 const start = async () => {
+  await app.register(cors, {
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://172.27.64.1:5173",
+      "https://csusinagem-frontend.vercel.app"
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    preflightContinue: false, // garantir que o Fastify responde o OPTIONS
+    optionsSuccessStatus: 204, // status padrão para resposta OPTIONS
+  });
+
   await app.register(cors, corsOptions);
 
   app.register(fastifyMultipart);
