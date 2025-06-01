@@ -19,6 +19,15 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return { ok: true };
   });
 
+  fastify.options('*', async (request, reply) => {
+    reply
+      .header('Access-Control-Allow-Origin', '*')
+      .header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+      .header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+      .code(204)
+      .send();
+  });
+
   // Criar novo cliente
   fastify.post("/customer", async (request, reply) => {
     console.log("Recebido no /customer:", request.body);
@@ -58,141 +67,141 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
 
   fastify.get("/categories/:id", async (request, reply) => {
-  return getCategoryById(request, reply);
-});
+    return getCategoryById(request, reply);
+  });
 
-const pump = promisify(pipeline);
+  const pump = promisify(pipeline);
 
-fastify.post("/categories", async (request, reply) => {
-  const parts = request.parts();
+  fastify.post("/categories", async (request, reply) => {
+    const parts = request.parts();
 
-  let name = '';
-  let imagePath = '';
+    let name = '';
+    let imagePath = '';
 
-  for await (const part of parts) {
-    if (part.type === 'file') {
-      const uploadsDir = path.join(__dirname, '..', 'uploads');
+    for await (const part of parts) {
+      if (part.type === 'file') {
+        const uploadsDir = path.join(__dirname, '..', 'uploads');
 
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
+        if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+
+        const fileName = `${Date.now()}-${part.filename}`;
+        const filePath = path.join(uploadsDir, fileName);
+        await pump(part.file, fs.createWriteStream(filePath));
+
+        // Guardar só o nome do arquivo, para servir pela URL
+        imagePath = fileName;
+      } else if (part.type === 'field' && part.fieldname === 'name') {
+        name = part.value as string;
+      }
+    }
+
+    if (!name || !imagePath) {
+      return reply.status(400).send({ error: 'Nome ou imagem não fornecidos.' });
+    }
+
+    return createCategory(
+      {
+        ...request,
+        body: { name, imagePath }
+      },
+      reply
+    );
+  });
+
+
+
+  fastify.get("/categories/:id/items", async (request, reply) => {
+    const { id } = request.params as { id: string };
+
+    try {
+      const category = await prisma.category.findUnique({
+        where: { id },
+        include: {
+          items: true,
+        },
+      });
+
+      if (!category) {
+        return reply.status(404).send({ message: "Categoria não encontrada" });
       }
 
-      const fileName = `${Date.now()}-${part.filename}`;
-      const filePath = path.join(uploadsDir, fileName);
-      await pump(part.file, fs.createWriteStream(filePath));
-
-      // Guardar só o nome do arquivo, para servir pela URL
-      imagePath = fileName;
-    } else if (part.type === 'field' && part.fieldname === 'name') {
-      name = part.value as string;
+      return reply.send(category.items);
+    } catch (err) {
+      return reply.status(500).send({ message: "Erro ao buscar itens da categoria", error: err });
     }
-  }
-
-  if (!name || !imagePath) {
-    return reply.status(400).send({ error: 'Nome ou imagem não fornecidos.' });
-  }
-
-  return createCategory(
-    {
-      ...request,
-      body: { name, imagePath }
-    },
-    reply
-  );
-});
+  });
 
 
+  fastify.post("/items", async (request, reply) => {
+    const parts = request.parts();
 
-fastify.get("/categories/:id/items", async (request, reply) => {
-  const { id } = request.params as { id: string };
+    let name = '';
+    let subname = '';
+    let categoryId = '';
+    let imagePath = '';
+    let filePath = '';
 
-  try {
-    const category = await prisma.category.findUnique({
-      where: { id },
-      include: {
-        items: true,
+    for await (const part of parts) {
+      if (part.type === 'file') {
+        const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+        if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+
+        const fileName = `${Date.now()}-${part.filename}`;
+        const fileDest = path.join(uploadsDir, fileName);
+        await pump(part.file, fs.createWriteStream(fileDest));
+
+        if (part.fieldname === 'image') {
+          imagePath = fileName;
+        } else if (part.fieldname === 'file') {
+          filePath = fileName;
+        }
+      } else if (part.type === 'field') {
+        if (part.fieldname === 'name' && typeof part.value === 'string') {
+          name = part.value;
+        }
+        if (part.fieldname === 'subname' && typeof part.value === 'string') {
+          subname = part.value;
+        }
+        if (part.fieldname === 'categoryId' && typeof part.value === 'string') {
+          categoryId = part.value;
+        }
+      }
+    }
+
+    if (!name || !subname || !imagePath || !filePath || !categoryId) {
+      return reply.status(400).send({ error: "Todos os campos são obrigatórios" });
+    }
+
+    const newItem = await prisma.item.create({
+      data: {
+        name,
+        subname,
+        imagePath,
+        filePath,
+        categoryId,
       },
     });
 
-    if (!category) {
-      return reply.status(404).send({ message: "Categoria não encontrada" });
-    }
-
-    return reply.send(category.items);
-  } catch (err) {
-    return reply.status(500).send({ message: "Erro ao buscar itens da categoria", error: err });
-  }
-});
-
-
-fastify.post("/items", async (request, reply) => {
-  const parts = request.parts();
-
-  let name = '';
-  let subname = '';
-  let categoryId = '';
-  let imagePath = '';
-  let filePath = '';
-
-  for await (const part of parts) {
-    if (part.type === 'file') {
-      const uploadsDir = path.join(__dirname, '..', 'uploads');
-
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
-      }
-
-      const fileName = `${Date.now()}-${part.filename}`;
-      const fileDest = path.join(uploadsDir, fileName);
-      await pump(part.file, fs.createWriteStream(fileDest));
-
-      if (part.fieldname === 'image') {
-        imagePath = fileName;
-      } else if (part.fieldname === 'file') {
-        filePath = fileName;
-      }
-    } else if (part.type === 'field') {
-      if (part.fieldname === 'name' && typeof part.value === 'string') {
-        name = part.value;
-      }
-      if (part.fieldname === 'subname' && typeof part.value === 'string') {
-        subname = part.value;
-      }
-      if (part.fieldname === 'categoryId' && typeof part.value === 'string') {
-        categoryId = part.value;
-      }
-    }
-  }
-
-  if (!name || !subname || !imagePath || !filePath || !categoryId) {
-    return reply.status(400).send({ error: "Todos os campos são obrigatórios" });
-  }
-
-  const newItem = await prisma.item.create({
-    data: {
-      name,
-      subname,
-      imagePath,
-      filePath,
-      categoryId,
-    },
+    return reply.status(201).send(newItem);
   });
 
-  return reply.status(201).send(newItem);
-});
 
 
-
-fastify.register(fastifyStatic, {
-  root: path.join(__dirname, '..', 'uploads'),
-  prefix: '/uploads', // Ex: http://localhost:3333/uploads/image.jpg
-});
+  fastify.register(fastifyStatic, {
+    root: path.join(__dirname, '..', 'uploads'),
+    prefix: '/uploads', // Ex: http://localhost:3333/uploads/image.jpg
+  });
 
 
 
 
-  }
+}
 
-  
+
 
 

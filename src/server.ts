@@ -3,7 +3,11 @@ import cors from '@fastify/cors';
 import fastifyMultipart from '@fastify/multipart';
 import { routes } from './routes';
 
+
 const app = Fastify({ logger: true });
+
+
+
 
 const corsOptions = {
   origin: [
@@ -17,19 +21,28 @@ const corsOptions = {
 };
 
 
+
 const start = async () => {
   await app.register(cors, {
-    origin: [
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
-      "http://172.27.64.1:5173",
-      "https://csusinagem-frontend.vercel.app"
-    ],
+    origin: (origin, cb) => {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://172.27.64.1:5173",
+        "https://csusinagem-frontend.vercel.app"
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        cb(null, true);
+      } else {
+        cb(new Error("Not allowed"), false);
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    preflightContinue: false, // garantir que o Fastify responde o OPTIONS
-    optionsSuccessStatus: 204, // status padrão para resposta OPTIONS
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
+
 
   await app.register(cors, corsOptions);
 
