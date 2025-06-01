@@ -3,17 +3,24 @@ import cors from '@fastify/cors';
 import fastifyMultipart from '@fastify/multipart';
 import { routes } from './routes';
 
-
 const app = Fastify({ logger: true });
 
-app.setErrorHandler((error, request, reply) => {
-  reply.code(400).send({ message: error.message });
-});
+// Configuração segura para CORS no Fastify
+const corsOptions = {
+  origin: ["http://localhost:5173", "http://127.0.0.1:5173", "https://csusinagem-frontend.vercel.app"],
+  credentials: true,
+};
 
 const start = async () => {
-  await app.register(cors);
-  app.register(fastifyMultipart);  // <- Registra multipart aqui
+  // Registra o plugin CORS com as opções
+  await app.register(cors, corsOptions);
+
+  app.register(fastifyMultipart);
   await app.register(routes);
+
+  app.setErrorHandler((error, request, reply) => {
+    reply.code(400).send({ message: error.message });
+  });
 
   try {
     await app.listen({ port: 3333 });
@@ -23,7 +30,5 @@ const start = async () => {
     process.exit(1);
   }
 };
-
-
 
 start();
