@@ -299,3 +299,4 @@ fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
     root: path.join(__dirname, '..', 'uploads'),
     prefix: '/uploads', // Ex: http://localhost:3333/uploads/image.jpg
   });
+}
