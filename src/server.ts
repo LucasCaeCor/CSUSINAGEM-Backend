@@ -22,7 +22,7 @@ const start = async () => {
         cb(new Error("Not allowed"), false);
       }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     credentials: true,
   });
 

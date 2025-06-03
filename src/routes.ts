@@ -20,6 +20,8 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
   });
 
 
+  
+
 
   // Criar novo cliente
   fastify.post("/customer", async (request, reply) => {
@@ -106,25 +108,27 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
 
   fastify.get("/categories/:id/items", async (request, reply) => {
-    const { id } = request.params as { id: string };
+  const { id } = request.params as { id: string };
+  const { status } = request.query as { status?: string };
 
-    try {
-      const category = await prisma.category.findUnique({
-        where: { id },
-        include: {
-          items: true,
-        },
-      });
+  try {
+    const whereClause = {
+      categoryId: id,
+      ...(status && { status }) // Filtro opcional por status
+    };
 
-      if (!category) {
-        return reply.status(404).send({ message: "Categoria não encontrada" });
+    const items = await prisma.item.findMany({
+      where: whereClause,
+      orderBy: {
+        createdAt: 'desc'
       }
+    });
 
-      return reply.send(category.items);
-    } catch (err) {
-      return reply.status(500).send({ message: "Erro ao buscar itens da categoria", error: err });
-    }
-  });
+    return reply.send(items);
+  } catch (err) {
+    return reply.status(500).send({ message: "Erro ao buscar itens", error: err });
+  }
+});
 
 
   fastify.post("/items", async (request, reply) => {
@@ -177,11 +181,117 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
         imagePath,
         filePath,
         categoryId,
-      },
+      status: "PENDENTE" // Valor padrão
+    },
+  });
+
+  return reply.status(201).send(newItem);
+});
+
+
+
+
+
+fastify.patch("/items/:id/status", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const { status } = request.body as { status: string };
+
+  if (!["PENDENTE", "CONCLUIDO"].includes(status)) {
+    return reply.status(400).send({ error: "Status inválido" });
+  }
+
+  try {
+    const updatedItem = await prisma.item.update({
+      where: { id },
+      data: { status },
+    });
+    return reply.send(updatedItem);
+  } catch (err) {
+    return reply.status(404).send({ error: "Item não encontrado" });
+  }
+});
+
+
+fastify.put("/items/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const parts = request.parts();
+
+  let updateData: any = {};
+  let imagePath: string | null = null;
+  let filePath: string | null = null;
+
+  for await (const part of parts) {
+    if (part.type === 'file') {
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const fileName = `${Date.now()}-${part.filename}`;
+      const fileDest = path.join(uploadsDir, fileName);
+      await pump(part.file, fs.createWriteStream(fileDest));
+
+      if (part.fieldname === 'image') {
+        imagePath = fileName;
+      } else if (part.fieldname === 'file') {
+        filePath = fileName;
+      }
+    } else if (part.type === 'field') {
+      if (part.fieldname === 'name' && typeof part.value === 'string') {
+        updateData.name = part.value;
+      }
+      if (part.fieldname === 'subname' && typeof part.value === 'string') {
+        updateData.subname = part.value;
+      }
+      if (part.fieldname === 'status' && typeof part.value === 'string') {
+        updateData.status = part.value;
+      }
+    }
+  }
+
+  if (imagePath) updateData.imagePath = imagePath;
+  if (filePath) updateData.filePath = filePath;
+
+  try {
+    const updatedItem = await prisma.item.update({
+      where: { id },
+      data: updateData,
     });
 
-    return reply.status(201).send(newItem);
-  });
+    return reply.send(updatedItem);
+  } catch (err) {
+    return reply.status(404).send({ error: "Item não encontrado" });
+  }
+});
+
+// Adicione esta rota no seu arquivo de rotas, junto com as outras rotas de items
+fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
+  const { status, sort, limit } = request.query as {
+    status?: 'PENDENTE' | 'CONCLUIDO';
+    sort?: string;
+    limit?: string;
+  };
+
+  try {
+    const orderBy = sort 
+      ? { [sort.split(':')[0]]: sort.split(':')[1] === 'desc' ? 'desc' : 'asc' }
+      : { createdAt: 'desc' };
+
+    const take = limit ? parseInt(limit) : undefined;
+
+    const items = await prisma.item.findMany({
+      where: status ? { status } : {},
+      orderBy,
+      take,
+    });
+
+    return reply.send(items);
+  } catch (err) {
+    console.error("Erro ao buscar itens:", err);
+    return reply.status(500).send({ error: "Erro interno ao buscar itens" });
+  }
+});
 
 
 
@@ -189,12 +299,3 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     root: path.join(__dirname, '..', 'uploads'),
     prefix: '/uploads', // Ex: http://localhost:3333/uploads/image.jpg
   });
-
-
-
-
-}
-
-
-
-

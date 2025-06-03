@@ -137,7 +137,8 @@ exports.Prisma.ItemScalarFieldEnum = {
   imagePath: 'imagePath',
   filePath: 'filePath',
   createdAt: 'createdAt',
-  categoryId: 'categoryId'
+  categoryId: 'categoryId',
+  status: 'status'
 };
 
 exports.Prisma.SortOrder = {

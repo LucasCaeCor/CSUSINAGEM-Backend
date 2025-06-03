@@ -3001,6 +3001,7 @@ export namespace Prisma {
     filePath: string | null
     createdAt: Date | null
     categoryId: string | null
+    status: string | null
   }
 
   export type ItemMaxAggregateOutputType = {
@@ -3011,6 +3012,7 @@ export namespace Prisma {
     filePath: string | null
     createdAt: Date | null
     categoryId: string | null
+    status: string | null
   }
 
   export type ItemCountAggregateOutputType = {
@@ -3021,6 +3023,7 @@ export namespace Prisma {
     filePath: number
     createdAt: number
     categoryId: number
+    status: number
     _all: number
   }
 
@@ -3033,6 +3036,7 @@ export namespace Prisma {
     filePath?: true
     createdAt?: true
     categoryId?: true
+    status?: true
   }
 
   export type ItemMaxAggregateInputType = {
@@ -3043,6 +3047,7 @@ export namespace Prisma {
     filePath?: true
     createdAt?: true
     categoryId?: true
+    status?: true
   }
 
   export type ItemCountAggregateInputType = {
@@ -3053,6 +3058,7 @@ export namespace Prisma {
     filePath?: true
     createdAt?: true
     categoryId?: true
+    status?: true
     _all?: true
   }
 
@@ -3132,10 +3138,11 @@ export namespace Prisma {
     id: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath: string | null
+    filePath: string | null
     createdAt: Date
     categoryId: string
+    status: string
     _count: ItemCountAggregateOutputType | null
     _min: ItemMinAggregateOutputType | null
     _max: ItemMaxAggregateOutputType | null
@@ -3163,6 +3170,7 @@ export namespace Prisma {
     filePath?: boolean
     createdAt?: boolean
     categoryId?: boolean
+    status?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
@@ -3176,9 +3184,10 @@ export namespace Prisma {
     filePath?: boolean
     createdAt?: boolean
     categoryId?: boolean
+    status?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subname" | "imagePath" | "filePath" | "createdAt" | "categoryId", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subname" | "imagePath" | "filePath" | "createdAt" | "categoryId" | "status", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }
@@ -3192,10 +3201,11 @@ export namespace Prisma {
       id: string
       name: string
       subname: string
-      imagePath: string
-      filePath: string
+      imagePath: string | null
+      filePath: string | null
       createdAt: Date
       categoryId: string
+      status: string
     }, ExtArgs["result"]["item"]>
     composites: {}
   }
@@ -3596,6 +3606,7 @@ export namespace Prisma {
     readonly filePath: FieldRef<"Item", 'String'>
     readonly createdAt: FieldRef<"Item", 'DateTime'>
     readonly categoryId: FieldRef<"Item", 'String'>
+    readonly status: FieldRef<"Item", 'String'>
   }
     
 
@@ -4018,7 +4029,8 @@ export namespace Prisma {
     imagePath: 'imagePath',
     filePath: 'filePath',
     createdAt: 'createdAt',
-    categoryId: 'categoryId'
+    categoryId: 'categoryId',
+    status: 'status'
   };
 
   export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
@@ -4216,10 +4228,11 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringFilter<"Item"> | string
-    filePath?: StringFilter<"Item"> | string
+    imagePath?: StringNullableFilter<"Item"> | string | null
+    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
+    status?: StringFilter<"Item"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
   }
 
@@ -4231,6 +4244,7 @@ export namespace Prisma {
     filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     category?: CategoryOrderByWithRelationInput
   }
 
@@ -4241,10 +4255,11 @@ export namespace Prisma {
     NOT?: ItemWhereInput | ItemWhereInput[]
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringFilter<"Item"> | string
-    filePath?: StringFilter<"Item"> | string
+    imagePath?: StringNullableFilter<"Item"> | string | null
+    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
+    status?: StringFilter<"Item"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
   }, "id">
 
@@ -4256,6 +4271,7 @@ export namespace Prisma {
     filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     _count?: ItemCountOrderByAggregateInput
     _max?: ItemMaxOrderByAggregateInput
     _min?: ItemMinOrderByAggregateInput
@@ -4268,10 +4284,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Item"> | string
     name?: StringWithAggregatesFilter<"Item"> | string
     subname?: StringWithAggregatesFilter<"Item"> | string
-    imagePath?: StringWithAggregatesFilter<"Item"> | string
-    filePath?: StringWithAggregatesFilter<"Item"> | string
+    imagePath?: StringNullableWithAggregatesFilter<"Item"> | string | null
+    filePath?: StringNullableWithAggregatesFilter<"Item"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
     categoryId?: StringWithAggregatesFilter<"Item"> | string
+    status?: StringWithAggregatesFilter<"Item"> | string
   }
 
   export type CustomerCreateInput = {
@@ -4393,9 +4410,10 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
+    status?: string
     category: CategoryCreateNestedOneWithoutItemsInput
   }
 
@@ -4403,55 +4421,61 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
+    status?: string
   }
 
   export type ItemUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type ItemCreateManyInput = {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
+    status?: string
   }
 
   export type ItemUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type ItemUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4613,6 +4637,22 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
+  }
+
   export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
@@ -4626,6 +4666,7 @@ export namespace Prisma {
     filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
   }
 
   export type ItemMaxOrderByAggregateInput = {
@@ -4636,6 +4677,7 @@ export namespace Prisma {
     filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
   }
 
   export type ItemMinOrderByAggregateInput = {
@@ -4646,6 +4688,26 @@ export namespace Prisma {
     filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4711,6 +4773,11 @@ export namespace Prisma {
     create?: XOR<CategoryCreateWithoutItemsInput, CategoryUncheckedCreateWithoutItemsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutItemsInput
     connect?: CategoryWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+    unset?: boolean
   }
 
   export type CategoryUpdateOneRequiredWithoutItemsNestedInput = {
@@ -4840,22 +4907,57 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type ItemCreateWithoutCategoryInput = {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
+    status?: string
   }
 
   export type ItemUncheckedCreateWithoutCategoryInput = {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
+    status?: string
   }
 
   export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -4890,10 +4992,11 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringFilter<"Item"> | string
-    filePath?: StringFilter<"Item"> | string
+    imagePath?: StringNullableFilter<"Item"> | string | null
+    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
+    status?: StringFilter<"Item"> | string
   }
 
   export type CategoryCreateWithoutItemsInput = {
@@ -4942,33 +5045,37 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath: string
-    filePath: string
+    imagePath?: string | null
+    filePath?: string | null
     createdAt?: Date | string
+    status?: string
   }
 
   export type ItemUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type ItemUncheckedUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: StringFieldUpdateOperationsInput | string
-    filePath?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
 
