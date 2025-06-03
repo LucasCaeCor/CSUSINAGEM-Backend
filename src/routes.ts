@@ -375,4 +375,24 @@ fastify.delete("/categories/:id", async (request, reply) => {
   }
 });
 
+
+
+// Rota para deletar item
+fastify.delete("/items/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  
+  try {
+    await prisma.item.delete({ where: { id } });
+    return reply.send({ success: true });
+  } catch (err) {
+    return reply.status(404).send({ error: "Item não encontrado" });
+  }
+});
 }
+
+
+
+
+
+
+
