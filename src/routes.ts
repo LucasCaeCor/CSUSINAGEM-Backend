@@ -299,4 +299,80 @@ fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
     root: path.join(__dirname, '..', 'uploads'),
     prefix: '/uploads', // Ex: http://localhost:3333/uploads/image.jpg
   });
+
+  // Adicione esta rota para atualizar categorias
+fastify.put("/categories/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const parts = request.parts();
+
+  let updateData: any = {};
+  let imagePath: string | null = null;
+
+  for await (const part of parts) {
+    if (part.type === 'file') {
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const fileName = `${Date.now()}-${part.filename}`;
+      const fileDest = path.join(uploadsDir, fileName);
+      await pump(part.file, fs.createWriteStream(fileDest));
+
+      imagePath = fileName;
+    } else if (part.type === 'field') {
+      if (part.fieldname === 'name' && typeof part.value === 'string') {
+        updateData.name = part.value;
+      }
+    }
+  }
+
+  if (imagePath) updateData.imagePath = imagePath;
+
+  try {
+    const updatedCategory = await prisma.category.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return reply.send(updatedCategory);
+  } catch (err) {
+    return reply.status(404).send({ error: "Categoria não encontrada" });
+  }
+});
+
+// Rota para deletar categoria
+fastify.delete("/categories/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  
+  try {
+    // Verifique se a categoria existe
+    const category = await prisma.category.findUnique({
+      where: { id },
+      include: { items: true } // Verifique se há itens associados
+    });
+
+    if (!category) {
+      return reply.status(404).send({ error: "Categoria não encontrada" });
+    }
+
+    if (category.items.length > 0) {
+      return reply.status(400).send({ 
+        error: "Não é possível excluir categoria com itens associados" 
+      });
+    }
+
+    // Se tudo ok, deleta a categoria
+    await prisma.category.delete({
+      where: { id }
+    });
+
+    return reply.send({ success: true });
+  } catch (err) {
+    console.error("Erro ao deletar categoria:", err);
+    return reply.status(500).send({ error: "Erro interno ao deletar categoria" });
+  }
+});
+
 }
