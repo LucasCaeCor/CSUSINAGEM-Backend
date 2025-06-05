@@ -44,8 +44,26 @@ model Item {
   filePath   String?
   createdAt  DateTime @default(now())
   categoryId String
-  status     String   @default("PENDENTE") // Novo campo
+  status     String   @default("PENDENTE")
   category   Category @relation(fields: [categoryId], references: [id])
+  itemType   String?
+
+  pedido Pedido? // Adicionado
 
   @@map("items")
+}
+
+model Pedido {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade  Int
+  material    String
+  dataEmissao DateTime
+  operacao    String
+  clienteId   String // <-- aqui era Json, agora é String
+  itemId      String   @unique @db.ObjectId
+  item        Item     @relation(fields: [itemId], references: [id])
+  createdAt   DateTime @default(now())
+  status      String? // opcional
+
+  @@map("pedidos")
 }

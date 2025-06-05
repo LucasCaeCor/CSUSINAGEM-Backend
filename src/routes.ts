@@ -11,12 +11,14 @@ import fs from 'fs';
 import { promisify } from 'util';
 import path from "path";
 import prisma from "./prisma";
+import { PedidoController } from "./controller/pedidoController";
+const pedidoController = new PedidoController();
 
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
   // Rota de teste simples
   fastify.get("/teste", async (request: FastifyRequest, reply: FastifyReply) => {
-    return { ok: true };
+    return { ok: true }; 
   });
 
 
@@ -30,9 +32,16 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
   });
 
   // Listar todos os clientes
-  fastify.get("/customers", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new ListCustomer().handle(request, reply);
-  });
+fastify.get("/customers", async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const customers = await prisma.customer.findMany();
+    // Retorna no formato esperado pelo frontend, com chave 'clientes'
+    return reply.send({ clientes: customers });
+  } catch (error) {
+    return reply.status(500).send({ error: "Erro ao buscar clientes" });
+  }
+});
+
 
   // Deletar cliente por ID
   fastify.delete("/customer/:id", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -265,7 +274,7 @@ fastify.put("/items/:id", async (request, reply) => {
   }
 });
 
-// Adicione esta rota no seu arquivo de rotas, junto com as outras rotas de items
+  // Adicione esta rota no seu arquivo de rotas, junto com as outras rotas de items
 fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
   const { status, sort, limit } = request.query as {
     status?: 'PENDENTE' | 'CONCLUIDO';
@@ -274,9 +283,16 @@ fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
   };
 
   try {
-    const orderBy = sort 
-      ? { [sort.split(':')[0]]: sort.split(':')[1] === 'desc' ? 'desc' : 'asc' }
-      : { createdAt: 'desc' };
+    // Define valores padrão
+    let orderBy: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' };
+
+    if (sort) {
+      const [field, direction] = sort.split(':');
+      // Só aceita 'asc' ou 'desc' como direção, senão usa 'asc' por padrão
+      if (field && (direction === 'asc' || direction === 'desc')) {
+        orderBy = { [field]: direction };
+      }
+    }
 
     const take = limit ? parseInt(limit) : undefined;
 
@@ -290,6 +306,115 @@ fastify.get("/items", async (request: FastifyRequest, reply: FastifyReply) => {
   } catch (err) {
     console.error("Erro ao buscar itens:", err);
     return reply.status(500).send({ error: "Erro interno ao buscar itens" });
+  }
+});
+
+
+
+
+fastify.post("/pedidos", async (request, reply) => {
+  const {
+    itemId,
+    clienteId,  // agora é string
+    quantidade,
+    material,
+    dataEmissao,
+    operacao,
+    status,
+  } = request.body as {
+    itemId: string;
+    clienteId: string;  // string simples
+    quantidade: number;
+    material: string;
+    dataEmissao: string;
+    operacao: string;
+    status?: string;
+  };
+
+  if (!itemId || !clienteId || !quantidade || !material || !dataEmissao || !operacao) {
+    return reply.status(400).send({ error: 'Campos obrigatórios faltando.' });
+  }
+
+  try {
+    const novoPedido = await prisma.pedido.create({
+      data: {
+        itemId,
+        clienteId,  // string simples aqui
+        quantidade,
+        material,
+        dataEmissao: new Date(dataEmissao),
+        operacao,
+        status,
+      },
+    });
+
+    return reply.status(201).send(novoPedido);
+  } catch (err) {
+    return reply.status(400).send({ error: "Erro ao criar pedido", detail: err });
+  }
+});
+
+
+fastify.get("/pedidos", async (request, reply) => {
+  try {
+    const pedidos = await prisma.pedido.findMany({
+      include: {
+        item: true, // apenas o item é relacional
+      },
+      orderBy: {
+        createdAt: 'desc',
+      }
+    });
+
+    return reply.send(pedidos);
+  } catch (err) {
+    console.error("Erro ao buscar pedidos:", err);
+    return reply.status(500).send({ error: "Erro ao buscar pedidos" });
+  }
+});
+
+
+fastify.get('/items/pending-with-pedido', async (request, reply) => {
+  const items = await prisma.item.findMany({
+    where: { status: 'PENDENTE' },
+    orderBy: { createdAt: 'desc' },
+    take: 5,
+    include: { pedido: true },  // incluindo pedidos relacionados
+  });
+  return items;
+});
+
+
+  
+
+
+fastify.patch("/pedidos/:id/status", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const { status } = request.body as { status: string };
+
+  if (!["EM_ANDAMENTO", "FINALIZADO", "CANCELADO"].includes(status)) {
+    return reply.status(400).send({ error: "Status inválido" });
+  }
+
+  try {
+    const pedidoAtualizado = await prisma.pedido.update({
+      where: { id },
+      data: { status },
+    });
+    return reply.send(pedidoAtualizado);
+  } catch (err) {
+    return reply.status(404).send({ error: "Pedido não encontrado" });
+  }
+});
+
+fastify.delete("/pedidos/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+
+  try {
+    await prisma.pedido.delete({ where: { id } });
+    return reply.send({ success: true });
+  } catch (err) {
+    return reply.status(404).send({ error: "Pedido não encontrado" });
   }
 });
 
@@ -389,10 +514,3 @@ fastify.delete("/items/:id", async (request, reply) => {
   }
 });
 }
-
-
-
-
-
-
-

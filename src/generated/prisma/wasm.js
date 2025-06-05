@@ -138,6 +138,19 @@ exports.Prisma.ItemScalarFieldEnum = {
   filePath: 'filePath',
   createdAt: 'createdAt',
   categoryId: 'categoryId',
+  status: 'status',
+  itemType: 'itemType'
+};
+
+exports.Prisma.PedidoScalarFieldEnum = {
+  id: 'id',
+  quantidade: 'quantidade',
+  material: 'material',
+  dataEmissao: 'dataEmissao',
+  operacao: 'operacao',
+  clienteId: 'clienteId',
+  itemId: 'itemId',
+  createdAt: 'createdAt',
   status: 'status'
 };
 
@@ -155,7 +168,8 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   Customer: 'Customer',
   Category: 'Category',
-  Item: 'Item'
+  Item: 'Item',
+  Pedido: 'Pedido'
 };
 
 /**
