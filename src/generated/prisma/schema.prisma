@@ -14,12 +14,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_ANDAMENTO
+  CONCLUIDO
+  CANCELADO
+}
+
+enum StatusOrcamento {
+  PENDENTE
+  APROVADO
+  REJEITADO
+  CANCELADO
+  CONVERTIDO
+}
+
 model Customer {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   email      String    @unique
   password   String
   status     Boolean
+  role       Role      @default(USER) // <-- Enum em vez de booleano
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -37,18 +58,18 @@ model Category {
 }
 
 model Item {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   subname    String
   imagePath  String?
   filePath   String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime    @default(now())
   categoryId String
-  status     String   @default("PENDENTE")
-  category   Category @relation(fields: [categoryId], references: [id])
+  status     String      @default("PENDENTE")
+  category   Category    @relation(fields: [categoryId], references: [id])
   itemType   String?
-
-  pedido Pedido? // Adicionado
+  pedidos    Pedido[] // Relação um-para-muitos
+  orcamentos Orcamento[] // Relação um-para-muitos
 
   @@map("items")
 }
@@ -59,11 +80,28 @@ model Pedido {
   material    String
   dataEmissao DateTime
   operacao    String
-  clienteId   String // <-- aqui era Json, agora é String
-  itemId      String   @unique @db.ObjectId
+  cliente     String?
+  itemId      String   @db.ObjectId // REMOVA @unique daqui
   item        Item     @relation(fields: [itemId], references: [id])
   createdAt   DateTime @default(now())
-  status      String? // opcional
+
+  status StatusPedido @default(PENDENTE)
 
   @@map("pedidos")
+}
+
+model Orcamento {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade  Int
+  material    String
+  dataEmissao DateTime
+  operacao    String
+  cliente     String?
+  itemId      String          @db.ObjectId
+  item        Item            @relation(fields: [itemId], references: [id])
+  valor       Float
+  createdAt   DateTime        @default(now())
+  status      StatusOrcamento @default(PENDENTE) // Garantir que use o enum
+
+  @@map("orcamentos") // Mude para plural para consistência
 }

@@ -5,7 +5,7 @@ interface PedidoCreateData {
   material: string;
   dataEmissao: string | Date;
   operacao: string;
-  clienteId: string; // agora é string simples
+  cliente: string; // agora é string simples
   itemId: string;
   status?: string;
 }
@@ -17,7 +17,7 @@ export class PedidoService {
       !data.material ||
       !data.dataEmissao ||
       !data.operacao ||
-      !data.clienteId ||
+      !data.cliente ||
       !data.itemId
     ) {
       throw new Error("Campos obrigatórios faltando");
@@ -32,7 +32,7 @@ export class PedidoService {
         material: data.material,
         dataEmissao: dataEmissaoDate,
         operacao: data.operacao,
-        clienteId: data.clienteId, // string agora
+        cliente: data.cliente, // string agora
         itemId: data.itemId,
         status: data.status,
       },

@@ -119,6 +119,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
   email: 'email',
   password: 'password',
   status: 'status',
+  role: 'role',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -148,8 +149,21 @@ exports.Prisma.PedidoScalarFieldEnum = {
   material: 'material',
   dataEmissao: 'dataEmissao',
   operacao: 'operacao',
-  clienteId: 'clienteId',
+  cliente: 'cliente',
   itemId: 'itemId',
+  createdAt: 'createdAt',
+  status: 'status'
+};
+
+exports.Prisma.OrcamentoScalarFieldEnum = {
+  id: 'id',
+  quantidade: 'quantidade',
+  material: 'material',
+  dataEmissao: 'dataEmissao',
+  operacao: 'operacao',
+  cliente: 'cliente',
+  itemId: 'itemId',
+  valor: 'valor',
   createdAt: 'createdAt',
   status: 'status'
 };
@@ -163,13 +177,32 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+exports.Role = exports.$Enums.Role = {
+  ADMIN: 'ADMIN',
+  USER: 'USER'
+};
 
+exports.StatusPedido = exports.$Enums.StatusPedido = {
+  PENDENTE: 'PENDENTE',
+  EM_ANDAMENTO: 'EM_ANDAMENTO',
+  CONCLUIDO: 'CONCLUIDO',
+  CANCELADO: 'CANCELADO'
+};
+
+exports.StatusOrcamento = exports.$Enums.StatusOrcamento = {
+  PENDENTE: 'PENDENTE',
+  APROVADO: 'APROVADO',
+  REJEITADO: 'REJEITADO',
+  CANCELADO: 'CANCELADO',
+  CONVERTIDO: 'CONVERTIDO'
+};
 
 exports.Prisma.ModelName = {
   Customer: 'Customer',
   Category: 'Category',
   Item: 'Item',
-  Pedido: 'Pedido'
+  Pedido: 'Pedido',
+  Orcamento: 'Orcamento'
 };
 
 /**

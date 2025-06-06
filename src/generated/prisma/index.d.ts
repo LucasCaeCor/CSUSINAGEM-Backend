@@ -33,6 +33,57 @@ export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
  * 
  */
 export type Pedido = $Result.DefaultSelection<Prisma.$PedidoPayload>
+/**
+ * Model Orcamento
+ * 
+ */
+export type Orcamento = $Result.DefaultSelection<Prisma.$OrcamentoPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const Role: {
+  ADMIN: 'ADMIN',
+  USER: 'USER'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const StatusPedido: {
+  PENDENTE: 'PENDENTE',
+  EM_ANDAMENTO: 'EM_ANDAMENTO',
+  CONCLUIDO: 'CONCLUIDO',
+  CANCELADO: 'CANCELADO'
+};
+
+export type StatusPedido = (typeof StatusPedido)[keyof typeof StatusPedido]
+
+
+export const StatusOrcamento: {
+  PENDENTE: 'PENDENTE',
+  APROVADO: 'APROVADO',
+  REJEITADO: 'REJEITADO',
+  CANCELADO: 'CANCELADO',
+  CONVERTIDO: 'CONVERTIDO'
+};
+
+export type StatusOrcamento = (typeof StatusOrcamento)[keyof typeof StatusOrcamento]
+
+}
+
+export type Role = $Enums.Role
+
+export const Role: typeof $Enums.Role
+
+export type StatusPedido = $Enums.StatusPedido
+
+export const StatusPedido: typeof $Enums.StatusPedido
+
+export type StatusOrcamento = $Enums.StatusOrcamento
+
+export const StatusOrcamento: typeof $Enums.StatusOrcamento
 
 /**
  * ##  Prisma Client ʲˢ
@@ -165,6 +216,16 @@ export class PrismaClient<
     * ```
     */
   get pedido(): Prisma.PedidoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.orcamento`: Exposes CRUD operations for the **Orcamento** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Orcamentos
+    * const orcamentos = await prisma.orcamento.findMany()
+    * ```
+    */
+  get orcamento(): Prisma.OrcamentoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -608,7 +669,8 @@ export namespace Prisma {
     Customer: 'Customer',
     Category: 'Category',
     Item: 'Item',
-    Pedido: 'Pedido'
+    Pedido: 'Pedido',
+    Orcamento: 'Orcamento'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -627,7 +689,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "customer" | "category" | "item" | "pedido"
+      modelProps: "customer" | "category" | "item" | "pedido" | "orcamento"
       txIsolationLevel: never
     }
     model: {
@@ -927,6 +989,80 @@ export namespace Prisma {
           }
         }
       }
+      Orcamento: {
+        payload: Prisma.$OrcamentoPayload<ExtArgs>
+        fields: Prisma.OrcamentoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OrcamentoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OrcamentoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          findFirst: {
+            args: Prisma.OrcamentoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OrcamentoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          findMany: {
+            args: Prisma.OrcamentoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>[]
+          }
+          create: {
+            args: Prisma.OrcamentoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          createMany: {
+            args: Prisma.OrcamentoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.OrcamentoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          update: {
+            args: Prisma.OrcamentoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          deleteMany: {
+            args: Prisma.OrcamentoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OrcamentoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.OrcamentoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrcamentoPayload>
+          }
+          aggregate: {
+            args: Prisma.OrcamentoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrcamento>
+          }
+          groupBy: {
+            args: Prisma.OrcamentoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrcamentoGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.OrcamentoFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.OrcamentoAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.OrcamentoCountArgs<ExtArgs>
+            result: $Utils.Optional<OrcamentoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1002,6 +1138,7 @@ export namespace Prisma {
     category?: CategoryOmit
     item?: ItemOmit
     pedido?: PedidoOmit
+    orcamento?: OrcamentoOmit
   }
 
   /* Types for Logging */
@@ -1123,6 +1260,46 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ItemCountOutputType
+   */
+
+  export type ItemCountOutputType = {
+    pedidos: number
+    orcamentos: number
+  }
+
+  export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pedidos?: boolean | ItemCountOutputTypeCountPedidosArgs
+    orcamentos?: boolean | ItemCountOutputTypeCountOrcamentosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCountOutputType
+     */
+    select?: ItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountPedidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PedidoWhereInput
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountOrcamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrcamentoWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1142,6 +1319,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     status: boolean | null
+    role: $Enums.Role | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -1152,6 +1330,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     status: boolean | null
+    role: $Enums.Role | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -1162,6 +1341,7 @@ export namespace Prisma {
     email: number
     password: number
     status: number
+    role: number
     created_at: number
     updated_at: number
     _all: number
@@ -1174,6 +1354,7 @@ export namespace Prisma {
     email?: true
     password?: true
     status?: true
+    role?: true
     created_at?: true
     updated_at?: true
   }
@@ -1184,6 +1365,7 @@ export namespace Prisma {
     email?: true
     password?: true
     status?: true
+    role?: true
     created_at?: true
     updated_at?: true
   }
@@ -1194,6 +1376,7 @@ export namespace Prisma {
     email?: true
     password?: true
     status?: true
+    role?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -1277,6 +1460,7 @@ export namespace Prisma {
     email: string
     password: string
     status: boolean
+    role: $Enums.Role
     created_at: Date | null
     updated_at: Date | null
     _count: CustomerCountAggregateOutputType | null
@@ -1304,6 +1488,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     status?: boolean
+    role?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["customer"]>
@@ -1316,11 +1501,12 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     status?: boolean
+    role?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "created_at" | "updated_at", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "role" | "created_at" | "updated_at", ExtArgs["result"]["customer"]>
 
   export type $CustomerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Customer"
@@ -1331,6 +1517,7 @@ export namespace Prisma {
       email: string
       password: string
       status: boolean
+      role: $Enums.Role
       created_at: Date | null
       updated_at: Date | null
     }, ExtArgs["result"]["customer"]>
@@ -1730,6 +1917,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Customer", 'String'>
     readonly password: FieldRef<"Customer", 'String'>
     readonly status: FieldRef<"Customer", 'Boolean'>
+    readonly role: FieldRef<"Customer", 'Role'>
     readonly created_at: FieldRef<"Customer", 'DateTime'>
     readonly updated_at: FieldRef<"Customer", 'DateTime'>
   }
@@ -3271,7 +3459,9 @@ export namespace Prisma {
     status?: boolean
     itemType?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    pedido?: boolean | Item$pedidoArgs<ExtArgs>
+    pedidos?: boolean | Item$pedidosArgs<ExtArgs>
+    orcamentos?: boolean | Item$orcamentosArgs<ExtArgs>
+    _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
 
@@ -3291,14 +3481,17 @@ export namespace Prisma {
   export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subname" | "imagePath" | "filePath" | "createdAt" | "categoryId" | "status" | "itemType", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    pedido?: boolean | Item$pedidoArgs<ExtArgs>
+    pedidos?: boolean | Item$pedidosArgs<ExtArgs>
+    orcamentos?: boolean | Item$orcamentosArgs<ExtArgs>
+    _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $ItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Item"
     objects: {
       category: Prisma.$CategoryPayload<ExtArgs>
-      pedido: Prisma.$PedidoPayload<ExtArgs> | null
+      pedidos: Prisma.$PedidoPayload<ExtArgs>[]
+      orcamentos: Prisma.$OrcamentoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3674,7 +3867,8 @@ export namespace Prisma {
   export interface Prisma__ItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    pedido<T extends Item$pedidoArgs<ExtArgs> = {}>(args?: Subset<T, Item$pedidoArgs<ExtArgs>>): Prisma__PedidoClient<$Result.GetResult<Prisma.$PedidoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    pedidos<T extends Item$pedidosArgs<ExtArgs> = {}>(args?: Subset<T, Item$pedidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PedidoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orcamentos<T extends Item$orcamentosArgs<ExtArgs> = {}>(args?: Subset<T, Item$orcamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4083,9 +4277,9 @@ export namespace Prisma {
   }
 
   /**
-   * Item.pedido
+   * Item.pedidos
    */
-  export type Item$pedidoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Item$pedidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Pedido
      */
@@ -4099,6 +4293,35 @@ export namespace Prisma {
      */
     include?: PedidoInclude<ExtArgs> | null
     where?: PedidoWhereInput
+    orderBy?: PedidoOrderByWithRelationInput | PedidoOrderByWithRelationInput[]
+    cursor?: PedidoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PedidoScalarFieldEnum | PedidoScalarFieldEnum[]
+  }
+
+  /**
+   * Item.orcamentos
+   */
+  export type Item$orcamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    where?: OrcamentoWhereInput
+    orderBy?: OrcamentoOrderByWithRelationInput | OrcamentoOrderByWithRelationInput[]
+    cursor?: OrcamentoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrcamentoScalarFieldEnum | OrcamentoScalarFieldEnum[]
   }
 
   /**
@@ -4146,10 +4369,10 @@ export namespace Prisma {
     material: string | null
     dataEmissao: Date | null
     operacao: string | null
-    clienteId: string | null
+    cliente: string | null
     itemId: string | null
     createdAt: Date | null
-    status: string | null
+    status: $Enums.StatusPedido | null
   }
 
   export type PedidoMaxAggregateOutputType = {
@@ -4158,10 +4381,10 @@ export namespace Prisma {
     material: string | null
     dataEmissao: Date | null
     operacao: string | null
-    clienteId: string | null
+    cliente: string | null
     itemId: string | null
     createdAt: Date | null
-    status: string | null
+    status: $Enums.StatusPedido | null
   }
 
   export type PedidoCountAggregateOutputType = {
@@ -4170,7 +4393,7 @@ export namespace Prisma {
     material: number
     dataEmissao: number
     operacao: number
-    clienteId: number
+    cliente: number
     itemId: number
     createdAt: number
     status: number
@@ -4192,7 +4415,7 @@ export namespace Prisma {
     material?: true
     dataEmissao?: true
     operacao?: true
-    clienteId?: true
+    cliente?: true
     itemId?: true
     createdAt?: true
     status?: true
@@ -4204,7 +4427,7 @@ export namespace Prisma {
     material?: true
     dataEmissao?: true
     operacao?: true
-    clienteId?: true
+    cliente?: true
     itemId?: true
     createdAt?: true
     status?: true
@@ -4216,7 +4439,7 @@ export namespace Prisma {
     material?: true
     dataEmissao?: true
     operacao?: true
-    clienteId?: true
+    cliente?: true
     itemId?: true
     createdAt?: true
     status?: true
@@ -4315,10 +4538,10 @@ export namespace Prisma {
     material: string
     dataEmissao: Date
     operacao: string
-    clienteId: string
+    cliente: string | null
     itemId: string
     createdAt: Date
-    status: string | null
+    status: $Enums.StatusPedido
     _count: PedidoCountAggregateOutputType | null
     _avg: PedidoAvgAggregateOutputType | null
     _sum: PedidoSumAggregateOutputType | null
@@ -4346,7 +4569,7 @@ export namespace Prisma {
     material?: boolean
     dataEmissao?: boolean
     operacao?: boolean
-    clienteId?: boolean
+    cliente?: boolean
     itemId?: boolean
     createdAt?: boolean
     status?: boolean
@@ -4361,13 +4584,13 @@ export namespace Prisma {
     material?: boolean
     dataEmissao?: boolean
     operacao?: boolean
-    clienteId?: boolean
+    cliente?: boolean
     itemId?: boolean
     createdAt?: boolean
     status?: boolean
   }
 
-  export type PedidoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quantidade" | "material" | "dataEmissao" | "operacao" | "clienteId" | "itemId" | "createdAt" | "status", ExtArgs["result"]["pedido"]>
+  export type PedidoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quantidade" | "material" | "dataEmissao" | "operacao" | "cliente" | "itemId" | "createdAt" | "status", ExtArgs["result"]["pedido"]>
   export type PedidoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     item?: boolean | ItemDefaultArgs<ExtArgs>
   }
@@ -4383,10 +4606,10 @@ export namespace Prisma {
       material: string
       dataEmissao: Date
       operacao: string
-      clienteId: string
+      cliente: string | null
       itemId: string
       createdAt: Date
-      status: string | null
+      status: $Enums.StatusPedido
     }, ExtArgs["result"]["pedido"]>
     composites: {}
   }
@@ -4785,10 +5008,10 @@ export namespace Prisma {
     readonly material: FieldRef<"Pedido", 'String'>
     readonly dataEmissao: FieldRef<"Pedido", 'DateTime'>
     readonly operacao: FieldRef<"Pedido", 'String'>
-    readonly clienteId: FieldRef<"Pedido", 'String'>
+    readonly cliente: FieldRef<"Pedido", 'String'>
     readonly itemId: FieldRef<"Pedido", 'String'>
     readonly createdAt: FieldRef<"Pedido", 'DateTime'>
-    readonly status: FieldRef<"Pedido", 'String'>
+    readonly status: FieldRef<"Pedido", 'StatusPedido'>
   }
     
 
@@ -5178,6 +5401,1078 @@ export namespace Prisma {
 
 
   /**
+   * Model Orcamento
+   */
+
+  export type AggregateOrcamento = {
+    _count: OrcamentoCountAggregateOutputType | null
+    _avg: OrcamentoAvgAggregateOutputType | null
+    _sum: OrcamentoSumAggregateOutputType | null
+    _min: OrcamentoMinAggregateOutputType | null
+    _max: OrcamentoMaxAggregateOutputType | null
+  }
+
+  export type OrcamentoAvgAggregateOutputType = {
+    quantidade: number | null
+    valor: number | null
+  }
+
+  export type OrcamentoSumAggregateOutputType = {
+    quantidade: number | null
+    valor: number | null
+  }
+
+  export type OrcamentoMinAggregateOutputType = {
+    id: string | null
+    quantidade: number | null
+    material: string | null
+    dataEmissao: Date | null
+    operacao: string | null
+    cliente: string | null
+    itemId: string | null
+    valor: number | null
+    createdAt: Date | null
+    status: $Enums.StatusOrcamento | null
+  }
+
+  export type OrcamentoMaxAggregateOutputType = {
+    id: string | null
+    quantidade: number | null
+    material: string | null
+    dataEmissao: Date | null
+    operacao: string | null
+    cliente: string | null
+    itemId: string | null
+    valor: number | null
+    createdAt: Date | null
+    status: $Enums.StatusOrcamento | null
+  }
+
+  export type OrcamentoCountAggregateOutputType = {
+    id: number
+    quantidade: number
+    material: number
+    dataEmissao: number
+    operacao: number
+    cliente: number
+    itemId: number
+    valor: number
+    createdAt: number
+    status: number
+    _all: number
+  }
+
+
+  export type OrcamentoAvgAggregateInputType = {
+    quantidade?: true
+    valor?: true
+  }
+
+  export type OrcamentoSumAggregateInputType = {
+    quantidade?: true
+    valor?: true
+  }
+
+  export type OrcamentoMinAggregateInputType = {
+    id?: true
+    quantidade?: true
+    material?: true
+    dataEmissao?: true
+    operacao?: true
+    cliente?: true
+    itemId?: true
+    valor?: true
+    createdAt?: true
+    status?: true
+  }
+
+  export type OrcamentoMaxAggregateInputType = {
+    id?: true
+    quantidade?: true
+    material?: true
+    dataEmissao?: true
+    operacao?: true
+    cliente?: true
+    itemId?: true
+    valor?: true
+    createdAt?: true
+    status?: true
+  }
+
+  export type OrcamentoCountAggregateInputType = {
+    id?: true
+    quantidade?: true
+    material?: true
+    dataEmissao?: true
+    operacao?: true
+    cliente?: true
+    itemId?: true
+    valor?: true
+    createdAt?: true
+    status?: true
+    _all?: true
+  }
+
+  export type OrcamentoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Orcamento to aggregate.
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orcamentos to fetch.
+     */
+    orderBy?: OrcamentoOrderByWithRelationInput | OrcamentoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OrcamentoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orcamentos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orcamentos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Orcamentos
+    **/
+    _count?: true | OrcamentoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OrcamentoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrcamentoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OrcamentoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OrcamentoMaxAggregateInputType
+  }
+
+  export type GetOrcamentoAggregateType<T extends OrcamentoAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrcamento]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrcamento[P]>
+      : GetScalarType<T[P], AggregateOrcamento[P]>
+  }
+
+
+
+
+  export type OrcamentoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrcamentoWhereInput
+    orderBy?: OrcamentoOrderByWithAggregationInput | OrcamentoOrderByWithAggregationInput[]
+    by: OrcamentoScalarFieldEnum[] | OrcamentoScalarFieldEnum
+    having?: OrcamentoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OrcamentoCountAggregateInputType | true
+    _avg?: OrcamentoAvgAggregateInputType
+    _sum?: OrcamentoSumAggregateInputType
+    _min?: OrcamentoMinAggregateInputType
+    _max?: OrcamentoMaxAggregateInputType
+  }
+
+  export type OrcamentoGroupByOutputType = {
+    id: string
+    quantidade: number
+    material: string
+    dataEmissao: Date
+    operacao: string
+    cliente: string | null
+    itemId: string
+    valor: number
+    createdAt: Date
+    status: $Enums.StatusOrcamento
+    _count: OrcamentoCountAggregateOutputType | null
+    _avg: OrcamentoAvgAggregateOutputType | null
+    _sum: OrcamentoSumAggregateOutputType | null
+    _min: OrcamentoMinAggregateOutputType | null
+    _max: OrcamentoMaxAggregateOutputType | null
+  }
+
+  type GetOrcamentoGroupByPayload<T extends OrcamentoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OrcamentoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OrcamentoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OrcamentoGroupByOutputType[P]>
+            : GetScalarType<T[P], OrcamentoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OrcamentoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quantidade?: boolean
+    material?: boolean
+    dataEmissao?: boolean
+    operacao?: boolean
+    cliente?: boolean
+    itemId?: boolean
+    valor?: boolean
+    createdAt?: boolean
+    status?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["orcamento"]>
+
+
+
+  export type OrcamentoSelectScalar = {
+    id?: boolean
+    quantidade?: boolean
+    material?: boolean
+    dataEmissao?: boolean
+    operacao?: boolean
+    cliente?: boolean
+    itemId?: boolean
+    valor?: boolean
+    createdAt?: boolean
+    status?: boolean
+  }
+
+  export type OrcamentoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quantidade" | "material" | "dataEmissao" | "operacao" | "cliente" | "itemId" | "valor" | "createdAt" | "status", ExtArgs["result"]["orcamento"]>
+  export type OrcamentoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+
+  export type $OrcamentoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Orcamento"
+    objects: {
+      item: Prisma.$ItemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      quantidade: number
+      material: string
+      dataEmissao: Date
+      operacao: string
+      cliente: string | null
+      itemId: string
+      valor: number
+      createdAt: Date
+      status: $Enums.StatusOrcamento
+    }, ExtArgs["result"]["orcamento"]>
+    composites: {}
+  }
+
+  type OrcamentoGetPayload<S extends boolean | null | undefined | OrcamentoDefaultArgs> = $Result.GetResult<Prisma.$OrcamentoPayload, S>
+
+  type OrcamentoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrcamentoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrcamentoCountAggregateInputType | true
+    }
+
+  export interface OrcamentoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Orcamento'], meta: { name: 'Orcamento' } }
+    /**
+     * Find zero or one Orcamento that matches the filter.
+     * @param {OrcamentoFindUniqueArgs} args - Arguments to find a Orcamento
+     * @example
+     * // Get one Orcamento
+     * const orcamento = await prisma.orcamento.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OrcamentoFindUniqueArgs>(args: SelectSubset<T, OrcamentoFindUniqueArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Orcamento that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OrcamentoFindUniqueOrThrowArgs} args - Arguments to find a Orcamento
+     * @example
+     * // Get one Orcamento
+     * const orcamento = await prisma.orcamento.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OrcamentoFindUniqueOrThrowArgs>(args: SelectSubset<T, OrcamentoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Orcamento that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoFindFirstArgs} args - Arguments to find a Orcamento
+     * @example
+     * // Get one Orcamento
+     * const orcamento = await prisma.orcamento.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OrcamentoFindFirstArgs>(args?: SelectSubset<T, OrcamentoFindFirstArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Orcamento that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoFindFirstOrThrowArgs} args - Arguments to find a Orcamento
+     * @example
+     * // Get one Orcamento
+     * const orcamento = await prisma.orcamento.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OrcamentoFindFirstOrThrowArgs>(args?: SelectSubset<T, OrcamentoFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Orcamentos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Orcamentos
+     * const orcamentos = await prisma.orcamento.findMany()
+     * 
+     * // Get first 10 Orcamentos
+     * const orcamentos = await prisma.orcamento.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const orcamentoWithIdOnly = await prisma.orcamento.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OrcamentoFindManyArgs>(args?: SelectSubset<T, OrcamentoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Orcamento.
+     * @param {OrcamentoCreateArgs} args - Arguments to create a Orcamento.
+     * @example
+     * // Create one Orcamento
+     * const Orcamento = await prisma.orcamento.create({
+     *   data: {
+     *     // ... data to create a Orcamento
+     *   }
+     * })
+     * 
+     */
+    create<T extends OrcamentoCreateArgs>(args: SelectSubset<T, OrcamentoCreateArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Orcamentos.
+     * @param {OrcamentoCreateManyArgs} args - Arguments to create many Orcamentos.
+     * @example
+     * // Create many Orcamentos
+     * const orcamento = await prisma.orcamento.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OrcamentoCreateManyArgs>(args?: SelectSubset<T, OrcamentoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Orcamento.
+     * @param {OrcamentoDeleteArgs} args - Arguments to delete one Orcamento.
+     * @example
+     * // Delete one Orcamento
+     * const Orcamento = await prisma.orcamento.delete({
+     *   where: {
+     *     // ... filter to delete one Orcamento
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OrcamentoDeleteArgs>(args: SelectSubset<T, OrcamentoDeleteArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Orcamento.
+     * @param {OrcamentoUpdateArgs} args - Arguments to update one Orcamento.
+     * @example
+     * // Update one Orcamento
+     * const orcamento = await prisma.orcamento.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OrcamentoUpdateArgs>(args: SelectSubset<T, OrcamentoUpdateArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Orcamentos.
+     * @param {OrcamentoDeleteManyArgs} args - Arguments to filter Orcamentos to delete.
+     * @example
+     * // Delete a few Orcamentos
+     * const { count } = await prisma.orcamento.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OrcamentoDeleteManyArgs>(args?: SelectSubset<T, OrcamentoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Orcamentos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Orcamentos
+     * const orcamento = await prisma.orcamento.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OrcamentoUpdateManyArgs>(args: SelectSubset<T, OrcamentoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Orcamento.
+     * @param {OrcamentoUpsertArgs} args - Arguments to update or create a Orcamento.
+     * @example
+     * // Update or create a Orcamento
+     * const orcamento = await prisma.orcamento.upsert({
+     *   create: {
+     *     // ... data to create a Orcamento
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Orcamento we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OrcamentoUpsertArgs>(args: SelectSubset<T, OrcamentoUpsertArgs<ExtArgs>>): Prisma__OrcamentoClient<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Orcamentos that matches the filter.
+     * @param {OrcamentoFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const orcamento = await prisma.orcamento.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: OrcamentoFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Orcamento.
+     * @param {OrcamentoAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const orcamento = await prisma.orcamento.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: OrcamentoAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of Orcamentos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoCountArgs} args - Arguments to filter Orcamentos to count.
+     * @example
+     * // Count the number of Orcamentos
+     * const count = await prisma.orcamento.count({
+     *   where: {
+     *     // ... the filter for the Orcamentos we want to count
+     *   }
+     * })
+    **/
+    count<T extends OrcamentoCountArgs>(
+      args?: Subset<T, OrcamentoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OrcamentoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Orcamento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OrcamentoAggregateArgs>(args: Subset<T, OrcamentoAggregateArgs>): Prisma.PrismaPromise<GetOrcamentoAggregateType<T>>
+
+    /**
+     * Group by Orcamento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrcamentoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OrcamentoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OrcamentoGroupByArgs['orderBy'] }
+        : { orderBy?: OrcamentoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OrcamentoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrcamentoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Orcamento model
+   */
+  readonly fields: OrcamentoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Orcamento.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OrcamentoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Orcamento model
+   */
+  interface OrcamentoFieldRefs {
+    readonly id: FieldRef<"Orcamento", 'String'>
+    readonly quantidade: FieldRef<"Orcamento", 'Int'>
+    readonly material: FieldRef<"Orcamento", 'String'>
+    readonly dataEmissao: FieldRef<"Orcamento", 'DateTime'>
+    readonly operacao: FieldRef<"Orcamento", 'String'>
+    readonly cliente: FieldRef<"Orcamento", 'String'>
+    readonly itemId: FieldRef<"Orcamento", 'String'>
+    readonly valor: FieldRef<"Orcamento", 'Float'>
+    readonly createdAt: FieldRef<"Orcamento", 'DateTime'>
+    readonly status: FieldRef<"Orcamento", 'StatusOrcamento'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Orcamento findUnique
+   */
+  export type OrcamentoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter, which Orcamento to fetch.
+     */
+    where: OrcamentoWhereUniqueInput
+  }
+
+  /**
+   * Orcamento findUniqueOrThrow
+   */
+  export type OrcamentoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter, which Orcamento to fetch.
+     */
+    where: OrcamentoWhereUniqueInput
+  }
+
+  /**
+   * Orcamento findFirst
+   */
+  export type OrcamentoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter, which Orcamento to fetch.
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orcamentos to fetch.
+     */
+    orderBy?: OrcamentoOrderByWithRelationInput | OrcamentoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Orcamentos.
+     */
+    cursor?: OrcamentoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orcamentos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orcamentos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orcamentos.
+     */
+    distinct?: OrcamentoScalarFieldEnum | OrcamentoScalarFieldEnum[]
+  }
+
+  /**
+   * Orcamento findFirstOrThrow
+   */
+  export type OrcamentoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter, which Orcamento to fetch.
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orcamentos to fetch.
+     */
+    orderBy?: OrcamentoOrderByWithRelationInput | OrcamentoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Orcamentos.
+     */
+    cursor?: OrcamentoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orcamentos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orcamentos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orcamentos.
+     */
+    distinct?: OrcamentoScalarFieldEnum | OrcamentoScalarFieldEnum[]
+  }
+
+  /**
+   * Orcamento findMany
+   */
+  export type OrcamentoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter, which Orcamentos to fetch.
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orcamentos to fetch.
+     */
+    orderBy?: OrcamentoOrderByWithRelationInput | OrcamentoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Orcamentos.
+     */
+    cursor?: OrcamentoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orcamentos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orcamentos.
+     */
+    skip?: number
+    distinct?: OrcamentoScalarFieldEnum | OrcamentoScalarFieldEnum[]
+  }
+
+  /**
+   * Orcamento create
+   */
+  export type OrcamentoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Orcamento.
+     */
+    data: XOR<OrcamentoCreateInput, OrcamentoUncheckedCreateInput>
+  }
+
+  /**
+   * Orcamento createMany
+   */
+  export type OrcamentoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Orcamentos.
+     */
+    data: OrcamentoCreateManyInput | OrcamentoCreateManyInput[]
+  }
+
+  /**
+   * Orcamento update
+   */
+  export type OrcamentoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Orcamento.
+     */
+    data: XOR<OrcamentoUpdateInput, OrcamentoUncheckedUpdateInput>
+    /**
+     * Choose, which Orcamento to update.
+     */
+    where: OrcamentoWhereUniqueInput
+  }
+
+  /**
+   * Orcamento updateMany
+   */
+  export type OrcamentoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Orcamentos.
+     */
+    data: XOR<OrcamentoUpdateManyMutationInput, OrcamentoUncheckedUpdateManyInput>
+    /**
+     * Filter which Orcamentos to update
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * Limit how many Orcamentos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Orcamento upsert
+   */
+  export type OrcamentoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Orcamento to update in case it exists.
+     */
+    where: OrcamentoWhereUniqueInput
+    /**
+     * In case the Orcamento found by the `where` argument doesn't exist, create a new Orcamento with this data.
+     */
+    create: XOR<OrcamentoCreateInput, OrcamentoUncheckedCreateInput>
+    /**
+     * In case the Orcamento was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrcamentoUpdateInput, OrcamentoUncheckedUpdateInput>
+  }
+
+  /**
+   * Orcamento delete
+   */
+  export type OrcamentoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+    /**
+     * Filter which Orcamento to delete.
+     */
+    where: OrcamentoWhereUniqueInput
+  }
+
+  /**
+   * Orcamento deleteMany
+   */
+  export type OrcamentoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Orcamentos to delete
+     */
+    where?: OrcamentoWhereInput
+    /**
+     * Limit how many Orcamentos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Orcamento findRaw
+   */
+  export type OrcamentoFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Orcamento aggregateRaw
+   */
+  export type OrcamentoAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Orcamento without action
+   */
+  export type OrcamentoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Orcamento
+     */
+    select?: OrcamentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Orcamento
+     */
+    omit?: OrcamentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrcamentoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5187,6 +6482,7 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     status: 'status',
+    role: 'role',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -5225,13 +6521,29 @@ export namespace Prisma {
     material: 'material',
     dataEmissao: 'dataEmissao',
     operacao: 'operacao',
-    clienteId: 'clienteId',
+    cliente: 'cliente',
     itemId: 'itemId',
     createdAt: 'createdAt',
     status: 'status'
   };
 
   export type PedidoScalarFieldEnum = (typeof PedidoScalarFieldEnum)[keyof typeof PedidoScalarFieldEnum]
+
+
+  export const OrcamentoScalarFieldEnum: {
+    id: 'id',
+    quantidade: 'quantidade',
+    material: 'material',
+    dataEmissao: 'dataEmissao',
+    operacao: 'operacao',
+    cliente: 'cliente',
+    itemId: 'itemId',
+    valor: 'valor',
+    createdAt: 'createdAt',
+    status: 'status'
+  };
+
+  export type OrcamentoScalarFieldEnum = (typeof OrcamentoScalarFieldEnum)[keyof typeof OrcamentoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5277,6 +6589,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -5305,6 +6631,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'StatusPedido'
+   */
+  export type EnumStatusPedidoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusPedido'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusPedido[]'
+   */
+  export type ListEnumStatusPedidoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusPedido[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -5315,6 +6655,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusOrcamento'
+   */
+  export type EnumStatusOrcamentoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusOrcamento'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusOrcamento[]'
+   */
+  export type ListEnumStatusOrcamentoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusOrcamento[]'>
     
   /**
    * Deep Input Types
@@ -5330,6 +6684,7 @@ export namespace Prisma {
     email?: StringFilter<"Customer"> | string
     password?: StringFilter<"Customer"> | string
     status?: BoolFilter<"Customer"> | boolean
+    role?: EnumRoleFilter<"Customer"> | $Enums.Role
     created_at?: DateTimeNullableFilter<"Customer"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"Customer"> | Date | string | null
   }
@@ -5340,6 +6695,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     status?: SortOrder
+    role?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5353,6 +6709,7 @@ export namespace Prisma {
     name?: StringFilter<"Customer"> | string
     password?: StringFilter<"Customer"> | string
     status?: BoolFilter<"Customer"> | boolean
+    role?: EnumRoleFilter<"Customer"> | $Enums.Role
     created_at?: DateTimeNullableFilter<"Customer"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"Customer"> | Date | string | null
   }, "id" | "email">
@@ -5363,6 +6720,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     status?: SortOrder
+    role?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: CustomerCountOrderByAggregateInput
@@ -5379,6 +6737,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Customer"> | string
     password?: StringWithAggregatesFilter<"Customer"> | string
     status?: BoolWithAggregatesFilter<"Customer"> | boolean
+    role?: EnumRoleWithAggregatesFilter<"Customer"> | $Enums.Role
     created_at?: DateTimeNullableWithAggregatesFilter<"Customer"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"Customer"> | Date | string | null
   }
@@ -5447,7 +6806,8 @@ export namespace Prisma {
     status?: StringFilter<"Item"> | string
     itemType?: StringNullableFilter<"Item"> | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    pedido?: XOR<PedidoNullableScalarRelationFilter, PedidoWhereInput> | null
+    pedidos?: PedidoListRelationFilter
+    orcamentos?: OrcamentoListRelationFilter
   }
 
   export type ItemOrderByWithRelationInput = {
@@ -5461,7 +6821,8 @@ export namespace Prisma {
     status?: SortOrder
     itemType?: SortOrder
     category?: CategoryOrderByWithRelationInput
-    pedido?: PedidoOrderByWithRelationInput
+    pedidos?: PedidoOrderByRelationAggregateInput
+    orcamentos?: OrcamentoOrderByRelationAggregateInput
   }
 
   export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -5478,7 +6839,8 @@ export namespace Prisma {
     status?: StringFilter<"Item"> | string
     itemType?: StringNullableFilter<"Item"> | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    pedido?: XOR<PedidoNullableScalarRelationFilter, PedidoWhereInput> | null
+    pedidos?: PedidoListRelationFilter
+    orcamentos?: OrcamentoListRelationFilter
   }, "id">
 
   export type ItemOrderByWithAggregationInput = {
@@ -5520,10 +6882,10 @@ export namespace Prisma {
     material?: StringFilter<"Pedido"> | string
     dataEmissao?: DateTimeFilter<"Pedido"> | Date | string
     operacao?: StringFilter<"Pedido"> | string
-    clienteId?: StringFilter<"Pedido"> | string
+    cliente?: StringNullableFilter<"Pedido"> | string | null
     itemId?: StringFilter<"Pedido"> | string
     createdAt?: DateTimeFilter<"Pedido"> | Date | string
-    status?: StringNullableFilter<"Pedido"> | string | null
+    status?: EnumStatusPedidoFilter<"Pedido"> | $Enums.StatusPedido
     item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
   }
 
@@ -5533,7 +6895,7 @@ export namespace Prisma {
     material?: SortOrder
     dataEmissao?: SortOrder
     operacao?: SortOrder
-    clienteId?: SortOrder
+    cliente?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -5542,7 +6904,6 @@ export namespace Prisma {
 
   export type PedidoWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    itemId?: string
     AND?: PedidoWhereInput | PedidoWhereInput[]
     OR?: PedidoWhereInput[]
     NOT?: PedidoWhereInput | PedidoWhereInput[]
@@ -5550,11 +6911,12 @@ export namespace Prisma {
     material?: StringFilter<"Pedido"> | string
     dataEmissao?: DateTimeFilter<"Pedido"> | Date | string
     operacao?: StringFilter<"Pedido"> | string
-    clienteId?: StringFilter<"Pedido"> | string
+    cliente?: StringNullableFilter<"Pedido"> | string | null
+    itemId?: StringFilter<"Pedido"> | string
     createdAt?: DateTimeFilter<"Pedido"> | Date | string
-    status?: StringNullableFilter<"Pedido"> | string | null
+    status?: EnumStatusPedidoFilter<"Pedido"> | $Enums.StatusPedido
     item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
-  }, "id" | "itemId">
+  }, "id">
 
   export type PedidoOrderByWithAggregationInput = {
     id?: SortOrder
@@ -5562,7 +6924,7 @@ export namespace Prisma {
     material?: SortOrder
     dataEmissao?: SortOrder
     operacao?: SortOrder
-    clienteId?: SortOrder
+    cliente?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -5582,10 +6944,92 @@ export namespace Prisma {
     material?: StringWithAggregatesFilter<"Pedido"> | string
     dataEmissao?: DateTimeWithAggregatesFilter<"Pedido"> | Date | string
     operacao?: StringWithAggregatesFilter<"Pedido"> | string
-    clienteId?: StringWithAggregatesFilter<"Pedido"> | string
+    cliente?: StringNullableWithAggregatesFilter<"Pedido"> | string | null
     itemId?: StringWithAggregatesFilter<"Pedido"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Pedido"> | Date | string
-    status?: StringNullableWithAggregatesFilter<"Pedido"> | string | null
+    status?: EnumStatusPedidoWithAggregatesFilter<"Pedido"> | $Enums.StatusPedido
+  }
+
+  export type OrcamentoWhereInput = {
+    AND?: OrcamentoWhereInput | OrcamentoWhereInput[]
+    OR?: OrcamentoWhereInput[]
+    NOT?: OrcamentoWhereInput | OrcamentoWhereInput[]
+    id?: StringFilter<"Orcamento"> | string
+    quantidade?: IntFilter<"Orcamento"> | number
+    material?: StringFilter<"Orcamento"> | string
+    dataEmissao?: DateTimeFilter<"Orcamento"> | Date | string
+    operacao?: StringFilter<"Orcamento"> | string
+    cliente?: StringNullableFilter<"Orcamento"> | string | null
+    itemId?: StringFilter<"Orcamento"> | string
+    valor?: FloatFilter<"Orcamento"> | number
+    createdAt?: DateTimeFilter<"Orcamento"> | Date | string
+    status?: EnumStatusOrcamentoFilter<"Orcamento"> | $Enums.StatusOrcamento
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }
+
+  export type OrcamentoOrderByWithRelationInput = {
+    id?: SortOrder
+    quantidade?: SortOrder
+    material?: SortOrder
+    dataEmissao?: SortOrder
+    operacao?: SortOrder
+    cliente?: SortOrder
+    itemId?: SortOrder
+    valor?: SortOrder
+    createdAt?: SortOrder
+    status?: SortOrder
+    item?: ItemOrderByWithRelationInput
+  }
+
+  export type OrcamentoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OrcamentoWhereInput | OrcamentoWhereInput[]
+    OR?: OrcamentoWhereInput[]
+    NOT?: OrcamentoWhereInput | OrcamentoWhereInput[]
+    quantidade?: IntFilter<"Orcamento"> | number
+    material?: StringFilter<"Orcamento"> | string
+    dataEmissao?: DateTimeFilter<"Orcamento"> | Date | string
+    operacao?: StringFilter<"Orcamento"> | string
+    cliente?: StringNullableFilter<"Orcamento"> | string | null
+    itemId?: StringFilter<"Orcamento"> | string
+    valor?: FloatFilter<"Orcamento"> | number
+    createdAt?: DateTimeFilter<"Orcamento"> | Date | string
+    status?: EnumStatusOrcamentoFilter<"Orcamento"> | $Enums.StatusOrcamento
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }, "id">
+
+  export type OrcamentoOrderByWithAggregationInput = {
+    id?: SortOrder
+    quantidade?: SortOrder
+    material?: SortOrder
+    dataEmissao?: SortOrder
+    operacao?: SortOrder
+    cliente?: SortOrder
+    itemId?: SortOrder
+    valor?: SortOrder
+    createdAt?: SortOrder
+    status?: SortOrder
+    _count?: OrcamentoCountOrderByAggregateInput
+    _avg?: OrcamentoAvgOrderByAggregateInput
+    _max?: OrcamentoMaxOrderByAggregateInput
+    _min?: OrcamentoMinOrderByAggregateInput
+    _sum?: OrcamentoSumOrderByAggregateInput
+  }
+
+  export type OrcamentoScalarWhereWithAggregatesInput = {
+    AND?: OrcamentoScalarWhereWithAggregatesInput | OrcamentoScalarWhereWithAggregatesInput[]
+    OR?: OrcamentoScalarWhereWithAggregatesInput[]
+    NOT?: OrcamentoScalarWhereWithAggregatesInput | OrcamentoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Orcamento"> | string
+    quantidade?: IntWithAggregatesFilter<"Orcamento"> | number
+    material?: StringWithAggregatesFilter<"Orcamento"> | string
+    dataEmissao?: DateTimeWithAggregatesFilter<"Orcamento"> | Date | string
+    operacao?: StringWithAggregatesFilter<"Orcamento"> | string
+    cliente?: StringNullableWithAggregatesFilter<"Orcamento"> | string | null
+    itemId?: StringWithAggregatesFilter<"Orcamento"> | string
+    valor?: FloatWithAggregatesFilter<"Orcamento"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Orcamento"> | Date | string
+    status?: EnumStatusOrcamentoWithAggregatesFilter<"Orcamento"> | $Enums.StatusOrcamento
   }
 
   export type CustomerCreateInput = {
@@ -5594,6 +7038,7 @@ export namespace Prisma {
     email: string
     password: string
     status: boolean
+    role?: $Enums.Role
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -5604,6 +7049,7 @@ export namespace Prisma {
     email: string
     password: string
     status: boolean
+    role?: $Enums.Role
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -5613,6 +7059,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -5622,6 +7069,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -5632,6 +7080,7 @@ export namespace Prisma {
     email: string
     password: string
     status: boolean
+    role?: $Enums.Role
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -5641,6 +7090,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -5650,6 +7100,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -5713,7 +7164,8 @@ export namespace Prisma {
     status?: string
     itemType?: string | null
     category: CategoryCreateNestedOneWithoutItemsInput
-    pedido?: PedidoCreateNestedOneWithoutItemInput
+    pedidos?: PedidoCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateInput = {
@@ -5726,7 +7178,8 @@ export namespace Prisma {
     categoryId: string
     status?: string
     itemType?: string | null
-    pedido?: PedidoUncheckedCreateNestedOneWithoutItemInput
+    pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemUpdateInput = {
@@ -5738,7 +7191,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
-    pedido?: PedidoUpdateOneWithoutItemNestedInput
+    pedidos?: PedidoUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
@@ -5750,7 +7204,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
-    pedido?: PedidoUncheckedUpdateOneWithoutItemNestedInput
+    pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemCreateManyInput = {
@@ -5792,10 +7247,10 @@ export namespace Prisma {
     material: string
     dataEmissao: Date | string
     operacao: string
-    clienteId: string
+    cliente?: string | null
     createdAt?: Date | string
-    status?: string | null
-    item: ItemCreateNestedOneWithoutPedidoInput
+    status?: $Enums.StatusPedido
+    item: ItemCreateNestedOneWithoutPedidosInput
   }
 
   export type PedidoUncheckedCreateInput = {
@@ -5804,10 +7259,10 @@ export namespace Prisma {
     material: string
     dataEmissao: Date | string
     operacao: string
-    clienteId: string
+    cliente?: string | null
     itemId: string
     createdAt?: Date | string
-    status?: string | null
+    status?: $Enums.StatusPedido
   }
 
   export type PedidoUpdateInput = {
@@ -5815,10 +7270,10 @@ export namespace Prisma {
     material?: StringFieldUpdateOperationsInput | string
     dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
     operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    item?: ItemUpdateOneRequiredWithoutPedidoNestedInput
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
+    item?: ItemUpdateOneRequiredWithoutPedidosNestedInput
   }
 
   export type PedidoUncheckedUpdateInput = {
@@ -5826,10 +7281,10 @@ export namespace Prisma {
     material?: StringFieldUpdateOperationsInput | string
     dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
     operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
   }
 
   export type PedidoCreateManyInput = {
@@ -5838,10 +7293,10 @@ export namespace Prisma {
     material: string
     dataEmissao: Date | string
     operacao: string
-    clienteId: string
+    cliente?: string | null
     itemId: string
     createdAt?: Date | string
-    status?: string | null
+    status?: $Enums.StatusPedido
   }
 
   export type PedidoUpdateManyMutationInput = {
@@ -5849,9 +7304,9 @@ export namespace Prisma {
     material?: StringFieldUpdateOperationsInput | string
     dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
     operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
   }
 
   export type PedidoUncheckedUpdateManyInput = {
@@ -5859,10 +7314,96 @@ export namespace Prisma {
     material?: StringFieldUpdateOperationsInput | string
     dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
     operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
+  }
+
+  export type OrcamentoCreateInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+    item: ItemCreateNestedOneWithoutOrcamentosInput
+  }
+
+  export type OrcamentoUncheckedCreateInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    itemId: string
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUpdateInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+    item?: ItemUpdateOneRequiredWithoutOrcamentosNestedInput
+  }
+
+  export type OrcamentoUncheckedUpdateInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    itemId?: StringFieldUpdateOperationsInput | string
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoCreateManyInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    itemId: string
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUpdateManyMutationInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUncheckedUpdateManyInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    itemId?: StringFieldUpdateOperationsInput | string
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -5885,6 +7426,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -5903,6 +7451,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     status?: SortOrder
+    role?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5913,6 +7462,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     status?: SortOrder
+    role?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5923,6 +7473,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     status?: SortOrder
+    role?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5951,6 +7502,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6045,9 +7606,24 @@ export namespace Prisma {
     isNot?: CategoryWhereInput
   }
 
-  export type PedidoNullableScalarRelationFilter = {
-    is?: PedidoWhereInput | null
-    isNot?: PedidoWhereInput | null
+  export type PedidoListRelationFilter = {
+    every?: PedidoWhereInput
+    some?: PedidoWhereInput
+    none?: PedidoWhereInput
+  }
+
+  export type OrcamentoListRelationFilter = {
+    every?: OrcamentoWhereInput
+    some?: OrcamentoWhereInput
+    none?: OrcamentoWhereInput
+  }
+
+  export type PedidoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrcamentoOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ItemCountOrderByAggregateInput = {
@@ -6116,6 +7692,13 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumStatusPedidoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusPedido | EnumStatusPedidoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusPedidoFilter<$PrismaModel> | $Enums.StatusPedido
+  }
+
   export type ItemScalarRelationFilter = {
     is?: ItemWhereInput
     isNot?: ItemWhereInput
@@ -6127,7 +7710,7 @@ export namespace Prisma {
     material?: SortOrder
     dataEmissao?: SortOrder
     operacao?: SortOrder
-    clienteId?: SortOrder
+    cliente?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -6143,7 +7726,7 @@ export namespace Prisma {
     material?: SortOrder
     dataEmissao?: SortOrder
     operacao?: SortOrder
-    clienteId?: SortOrder
+    cliente?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -6155,7 +7738,7 @@ export namespace Prisma {
     material?: SortOrder
     dataEmissao?: SortOrder
     operacao?: SortOrder
-    clienteId?: SortOrder
+    cliente?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -6181,12 +7764,119 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type EnumStatusPedidoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusPedido | EnumStatusPedidoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusPedidoWithAggregatesFilter<$PrismaModel> | $Enums.StatusPedido
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusPedidoFilter<$PrismaModel>
+    _max?: NestedEnumStatusPedidoFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type EnumStatusOrcamentoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusOrcamento | EnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusOrcamentoFilter<$PrismaModel> | $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoCountOrderByAggregateInput = {
+    id?: SortOrder
+    quantidade?: SortOrder
+    material?: SortOrder
+    dataEmissao?: SortOrder
+    operacao?: SortOrder
+    cliente?: SortOrder
+    itemId?: SortOrder
+    valor?: SortOrder
+    createdAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type OrcamentoAvgOrderByAggregateInput = {
+    quantidade?: SortOrder
+    valor?: SortOrder
+  }
+
+  export type OrcamentoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    quantidade?: SortOrder
+    material?: SortOrder
+    dataEmissao?: SortOrder
+    operacao?: SortOrder
+    cliente?: SortOrder
+    itemId?: SortOrder
+    valor?: SortOrder
+    createdAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type OrcamentoMinOrderByAggregateInput = {
+    id?: SortOrder
+    quantidade?: SortOrder
+    material?: SortOrder
+    dataEmissao?: SortOrder
+    operacao?: SortOrder
+    cliente?: SortOrder
+    itemId?: SortOrder
+    valor?: SortOrder
+    createdAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type OrcamentoSumOrderByAggregateInput = {
+    quantidade?: SortOrder
+    valor?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumStatusOrcamentoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusOrcamento | EnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusOrcamentoWithAggregatesFilter<$PrismaModel> | $Enums.StatusOrcamento
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusOrcamentoFilter<$PrismaModel>
+    _max?: NestedEnumStatusOrcamentoFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -6246,16 +7936,32 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
-  export type PedidoCreateNestedOneWithoutItemInput = {
-    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
-    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput
-    connect?: PedidoWhereUniqueInput
+  export type PedidoCreateNestedManyWithoutItemInput = {
+    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
+    createMany?: PedidoCreateManyItemInputEnvelope
+    connect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
   }
 
-  export type PedidoUncheckedCreateNestedOneWithoutItemInput = {
-    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
-    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput
-    connect?: PedidoWhereUniqueInput
+  export type OrcamentoCreateNestedManyWithoutItemInput = {
+    create?: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput> | OrcamentoCreateWithoutItemInput[] | OrcamentoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: OrcamentoCreateOrConnectWithoutItemInput | OrcamentoCreateOrConnectWithoutItemInput[]
+    createMany?: OrcamentoCreateManyItemInputEnvelope
+    connect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+  }
+
+  export type PedidoUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
+    createMany?: PedidoCreateManyItemInputEnvelope
+    connect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+  }
+
+  export type OrcamentoUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput> | OrcamentoCreateWithoutItemInput[] | OrcamentoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: OrcamentoCreateOrConnectWithoutItemInput | OrcamentoCreateOrConnectWithoutItemInput[]
+    createMany?: OrcamentoCreateManyItemInputEnvelope
+    connect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -6271,29 +7977,65 @@ export namespace Prisma {
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutItemsInput, CategoryUpdateWithoutItemsInput>, CategoryUncheckedUpdateWithoutItemsInput>
   }
 
-  export type PedidoUpdateOneWithoutItemNestedInput = {
-    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
-    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput
-    upsert?: PedidoUpsertWithoutItemInput
-    disconnect?: PedidoWhereInput | boolean
-    delete?: PedidoWhereInput | boolean
-    connect?: PedidoWhereUniqueInput
-    update?: XOR<XOR<PedidoUpdateToOneWithWhereWithoutItemInput, PedidoUpdateWithoutItemInput>, PedidoUncheckedUpdateWithoutItemInput>
+  export type PedidoUpdateManyWithoutItemNestedInput = {
+    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
+    upsert?: PedidoUpsertWithWhereUniqueWithoutItemInput | PedidoUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: PedidoCreateManyItemInputEnvelope
+    set?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    disconnect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    delete?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    connect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    update?: PedidoUpdateWithWhereUniqueWithoutItemInput | PedidoUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: PedidoUpdateManyWithWhereWithoutItemInput | PedidoUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: PedidoScalarWhereInput | PedidoScalarWhereInput[]
   }
 
-  export type PedidoUncheckedUpdateOneWithoutItemNestedInput = {
-    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
-    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput
-    upsert?: PedidoUpsertWithoutItemInput
-    disconnect?: PedidoWhereInput | boolean
-    delete?: PedidoWhereInput | boolean
-    connect?: PedidoWhereUniqueInput
-    update?: XOR<XOR<PedidoUpdateToOneWithWhereWithoutItemInput, PedidoUpdateWithoutItemInput>, PedidoUncheckedUpdateWithoutItemInput>
+  export type OrcamentoUpdateManyWithoutItemNestedInput = {
+    create?: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput> | OrcamentoCreateWithoutItemInput[] | OrcamentoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: OrcamentoCreateOrConnectWithoutItemInput | OrcamentoCreateOrConnectWithoutItemInput[]
+    upsert?: OrcamentoUpsertWithWhereUniqueWithoutItemInput | OrcamentoUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: OrcamentoCreateManyItemInputEnvelope
+    set?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    disconnect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    delete?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    connect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    update?: OrcamentoUpdateWithWhereUniqueWithoutItemInput | OrcamentoUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: OrcamentoUpdateManyWithWhereWithoutItemInput | OrcamentoUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
   }
 
-  export type ItemCreateNestedOneWithoutPedidoInput = {
-    create?: XOR<ItemCreateWithoutPedidoInput, ItemUncheckedCreateWithoutPedidoInput>
-    connectOrCreate?: ItemCreateOrConnectWithoutPedidoInput
+  export type PedidoUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
+    upsert?: PedidoUpsertWithWhereUniqueWithoutItemInput | PedidoUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: PedidoCreateManyItemInputEnvelope
+    set?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    disconnect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    delete?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    connect?: PedidoWhereUniqueInput | PedidoWhereUniqueInput[]
+    update?: PedidoUpdateWithWhereUniqueWithoutItemInput | PedidoUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: PedidoUpdateManyWithWhereWithoutItemInput | PedidoUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: PedidoScalarWhereInput | PedidoScalarWhereInput[]
+  }
+
+  export type OrcamentoUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput> | OrcamentoCreateWithoutItemInput[] | OrcamentoUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: OrcamentoCreateOrConnectWithoutItemInput | OrcamentoCreateOrConnectWithoutItemInput[]
+    upsert?: OrcamentoUpsertWithWhereUniqueWithoutItemInput | OrcamentoUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: OrcamentoCreateManyItemInputEnvelope
+    set?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    disconnect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    delete?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    connect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+    update?: OrcamentoUpdateWithWhereUniqueWithoutItemInput | OrcamentoUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: OrcamentoUpdateManyWithWhereWithoutItemInput | OrcamentoUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
+  }
+
+  export type ItemCreateNestedOneWithoutPedidosInput = {
+    create?: XOR<ItemCreateWithoutPedidosInput, ItemUncheckedCreateWithoutPedidosInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutPedidosInput
     connect?: ItemWhereUniqueInput
   }
 
@@ -6305,12 +8047,42 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type ItemUpdateOneRequiredWithoutPedidoNestedInput = {
-    create?: XOR<ItemCreateWithoutPedidoInput, ItemUncheckedCreateWithoutPedidoInput>
-    connectOrCreate?: ItemCreateOrConnectWithoutPedidoInput
-    upsert?: ItemUpsertWithoutPedidoInput
+  export type EnumStatusPedidoFieldUpdateOperationsInput = {
+    set?: $Enums.StatusPedido
+  }
+
+  export type ItemUpdateOneRequiredWithoutPedidosNestedInput = {
+    create?: XOR<ItemCreateWithoutPedidosInput, ItemUncheckedCreateWithoutPedidosInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutPedidosInput
+    upsert?: ItemUpsertWithoutPedidosInput
     connect?: ItemWhereUniqueInput
-    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutPedidoInput, ItemUpdateWithoutPedidoInput>, ItemUncheckedUpdateWithoutPedidoInput>
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutPedidosInput, ItemUpdateWithoutPedidosInput>, ItemUncheckedUpdateWithoutPedidosInput>
+  }
+
+  export type ItemCreateNestedOneWithoutOrcamentosInput = {
+    create?: XOR<ItemCreateWithoutOrcamentosInput, ItemUncheckedCreateWithoutOrcamentosInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutOrcamentosInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumStatusOrcamentoFieldUpdateOperationsInput = {
+    set?: $Enums.StatusOrcamento
+  }
+
+  export type ItemUpdateOneRequiredWithoutOrcamentosNestedInput = {
+    create?: XOR<ItemCreateWithoutOrcamentosInput, ItemUncheckedCreateWithoutOrcamentosInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutOrcamentosInput
+    upsert?: ItemUpsertWithoutOrcamentosInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutOrcamentosInput, ItemUpdateWithoutOrcamentosInput>, ItemUncheckedUpdateWithoutOrcamentosInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6330,6 +8102,13 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -6378,6 +8157,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6465,6 +8254,13 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedEnumStatusPedidoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusPedido | EnumStatusPedidoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusPedidoFilter<$PrismaModel> | $Enums.StatusPedido
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -6492,6 +8288,49 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumStatusPedidoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusPedido | EnumStatusPedidoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusPedidoWithAggregatesFilter<$PrismaModel> | $Enums.StatusPedido
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusPedidoFilter<$PrismaModel>
+    _max?: NestedEnumStatusPedidoFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusOrcamentoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusOrcamento | EnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusOrcamentoFilter<$PrismaModel> | $Enums.StatusOrcamento
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusOrcamentoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusOrcamento | EnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusOrcamento[] | ListEnumStatusOrcamentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusOrcamentoWithAggregatesFilter<$PrismaModel> | $Enums.StatusOrcamento
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusOrcamentoFilter<$PrismaModel>
+    _max?: NestedEnumStatusOrcamentoFilter<$PrismaModel>
+  }
+
   export type ItemCreateWithoutCategoryInput = {
     id?: string
     name: string
@@ -6501,7 +8340,8 @@ export namespace Prisma {
     createdAt?: Date | string
     status?: string
     itemType?: string | null
-    pedido?: PedidoCreateNestedOneWithoutItemInput
+    pedidos?: PedidoCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutCategoryInput = {
@@ -6513,7 +8353,8 @@ export namespace Prisma {
     createdAt?: Date | string
     status?: string
     itemType?: string | null
-    pedido?: PedidoUncheckedCreateNestedOneWithoutItemInput
+    pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -6581,9 +8422,9 @@ export namespace Prisma {
     material: string
     dataEmissao: Date | string
     operacao: string
-    clienteId: string
+    cliente?: string | null
     createdAt?: Date | string
-    status?: string | null
+    status?: $Enums.StatusPedido
   }
 
   export type PedidoUncheckedCreateWithoutItemInput = {
@@ -6592,14 +8433,51 @@ export namespace Prisma {
     material: string
     dataEmissao: Date | string
     operacao: string
-    clienteId: string
+    cliente?: string | null
     createdAt?: Date | string
-    status?: string | null
+    status?: $Enums.StatusPedido
   }
 
   export type PedidoCreateOrConnectWithoutItemInput = {
     where: PedidoWhereUniqueInput
     create: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
+  }
+
+  export type PedidoCreateManyItemInputEnvelope = {
+    data: PedidoCreateManyItemInput | PedidoCreateManyItemInput[]
+  }
+
+  export type OrcamentoCreateWithoutItemInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUncheckedCreateWithoutItemInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoCreateOrConnectWithoutItemInput = {
+    where: OrcamentoWhereUniqueInput
+    create: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput>
+  }
+
+  export type OrcamentoCreateManyItemInputEnvelope = {
+    data: OrcamentoCreateManyItemInput | OrcamentoCreateManyItemInput[]
   }
 
   export type CategoryUpsertWithoutItemsInput = {
@@ -6625,38 +8503,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PedidoUpsertWithoutItemInput = {
+  export type PedidoUpsertWithWhereUniqueWithoutItemInput = {
+    where: PedidoWhereUniqueInput
     update: XOR<PedidoUpdateWithoutItemInput, PedidoUncheckedUpdateWithoutItemInput>
     create: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput>
-    where?: PedidoWhereInput
   }
 
-  export type PedidoUpdateToOneWithWhereWithoutItemInput = {
-    where?: PedidoWhereInput
+  export type PedidoUpdateWithWhereUniqueWithoutItemInput = {
+    where: PedidoWhereUniqueInput
     data: XOR<PedidoUpdateWithoutItemInput, PedidoUncheckedUpdateWithoutItemInput>
   }
 
-  export type PedidoUpdateWithoutItemInput = {
-    quantidade?: IntFieldUpdateOperationsInput | number
-    material?: StringFieldUpdateOperationsInput | string
-    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
-    operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
+  export type PedidoUpdateManyWithWhereWithoutItemInput = {
+    where: PedidoScalarWhereInput
+    data: XOR<PedidoUpdateManyMutationInput, PedidoUncheckedUpdateManyWithoutItemInput>
   }
 
-  export type PedidoUncheckedUpdateWithoutItemInput = {
-    quantidade?: IntFieldUpdateOperationsInput | number
-    material?: StringFieldUpdateOperationsInput | string
-    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
-    operacao?: StringFieldUpdateOperationsInput | string
-    clienteId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: NullableStringFieldUpdateOperationsInput | string | null
+  export type PedidoScalarWhereInput = {
+    AND?: PedidoScalarWhereInput | PedidoScalarWhereInput[]
+    OR?: PedidoScalarWhereInput[]
+    NOT?: PedidoScalarWhereInput | PedidoScalarWhereInput[]
+    id?: StringFilter<"Pedido"> | string
+    quantidade?: IntFilter<"Pedido"> | number
+    material?: StringFilter<"Pedido"> | string
+    dataEmissao?: DateTimeFilter<"Pedido"> | Date | string
+    operacao?: StringFilter<"Pedido"> | string
+    cliente?: StringNullableFilter<"Pedido"> | string | null
+    itemId?: StringFilter<"Pedido"> | string
+    createdAt?: DateTimeFilter<"Pedido"> | Date | string
+    status?: EnumStatusPedidoFilter<"Pedido"> | $Enums.StatusPedido
   }
 
-  export type ItemCreateWithoutPedidoInput = {
+  export type OrcamentoUpsertWithWhereUniqueWithoutItemInput = {
+    where: OrcamentoWhereUniqueInput
+    update: XOR<OrcamentoUpdateWithoutItemInput, OrcamentoUncheckedUpdateWithoutItemInput>
+    create: XOR<OrcamentoCreateWithoutItemInput, OrcamentoUncheckedCreateWithoutItemInput>
+  }
+
+  export type OrcamentoUpdateWithWhereUniqueWithoutItemInput = {
+    where: OrcamentoWhereUniqueInput
+    data: XOR<OrcamentoUpdateWithoutItemInput, OrcamentoUncheckedUpdateWithoutItemInput>
+  }
+
+  export type OrcamentoUpdateManyWithWhereWithoutItemInput = {
+    where: OrcamentoScalarWhereInput
+    data: XOR<OrcamentoUpdateManyMutationInput, OrcamentoUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type OrcamentoScalarWhereInput = {
+    AND?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
+    OR?: OrcamentoScalarWhereInput[]
+    NOT?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
+    id?: StringFilter<"Orcamento"> | string
+    quantidade?: IntFilter<"Orcamento"> | number
+    material?: StringFilter<"Orcamento"> | string
+    dataEmissao?: DateTimeFilter<"Orcamento"> | Date | string
+    operacao?: StringFilter<"Orcamento"> | string
+    cliente?: StringNullableFilter<"Orcamento"> | string | null
+    itemId?: StringFilter<"Orcamento"> | string
+    valor?: FloatFilter<"Orcamento"> | number
+    createdAt?: DateTimeFilter<"Orcamento"> | Date | string
+    status?: EnumStatusOrcamentoFilter<"Orcamento"> | $Enums.StatusOrcamento
+  }
+
+  export type ItemCreateWithoutPedidosInput = {
     id?: string
     name: string
     subname: string
@@ -6666,9 +8576,10 @@ export namespace Prisma {
     status?: string
     itemType?: string | null
     category: CategoryCreateNestedOneWithoutItemsInput
+    orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
 
-  export type ItemUncheckedCreateWithoutPedidoInput = {
+  export type ItemUncheckedCreateWithoutPedidosInput = {
     id?: string
     name: string
     subname: string
@@ -6678,25 +8589,26 @@ export namespace Prisma {
     categoryId: string
     status?: string
     itemType?: string | null
+    orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
 
-  export type ItemCreateOrConnectWithoutPedidoInput = {
+  export type ItemCreateOrConnectWithoutPedidosInput = {
     where: ItemWhereUniqueInput
-    create: XOR<ItemCreateWithoutPedidoInput, ItemUncheckedCreateWithoutPedidoInput>
+    create: XOR<ItemCreateWithoutPedidosInput, ItemUncheckedCreateWithoutPedidosInput>
   }
 
-  export type ItemUpsertWithoutPedidoInput = {
-    update: XOR<ItemUpdateWithoutPedidoInput, ItemUncheckedUpdateWithoutPedidoInput>
-    create: XOR<ItemCreateWithoutPedidoInput, ItemUncheckedCreateWithoutPedidoInput>
+  export type ItemUpsertWithoutPedidosInput = {
+    update: XOR<ItemUpdateWithoutPedidosInput, ItemUncheckedUpdateWithoutPedidosInput>
+    create: XOR<ItemCreateWithoutPedidosInput, ItemUncheckedCreateWithoutPedidosInput>
     where?: ItemWhereInput
   }
 
-  export type ItemUpdateToOneWithWhereWithoutPedidoInput = {
+  export type ItemUpdateToOneWithWhereWithoutPedidosInput = {
     where?: ItemWhereInput
-    data: XOR<ItemUpdateWithoutPedidoInput, ItemUncheckedUpdateWithoutPedidoInput>
+    data: XOR<ItemUpdateWithoutPedidosInput, ItemUncheckedUpdateWithoutPedidosInput>
   }
 
-  export type ItemUpdateWithoutPedidoInput = {
+  export type ItemUpdateWithoutPedidosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6705,9 +8617,10 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
 
-  export type ItemUncheckedUpdateWithoutPedidoInput = {
+  export type ItemUncheckedUpdateWithoutPedidosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6716,6 +8629,73 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemCreateWithoutOrcamentosInput = {
+    id?: string
+    name: string
+    subname: string
+    imagePath?: string | null
+    filePath?: string | null
+    createdAt?: Date | string
+    status?: string
+    itemType?: string | null
+    category: CategoryCreateNestedOneWithoutItemsInput
+    pedidos?: PedidoCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemUncheckedCreateWithoutOrcamentosInput = {
+    id?: string
+    name: string
+    subname: string
+    imagePath?: string | null
+    filePath?: string | null
+    createdAt?: Date | string
+    categoryId: string
+    status?: string
+    itemType?: string | null
+    pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutOrcamentosInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutOrcamentosInput, ItemUncheckedCreateWithoutOrcamentosInput>
+  }
+
+  export type ItemUpsertWithoutOrcamentosInput = {
+    update: XOR<ItemUpdateWithoutOrcamentosInput, ItemUncheckedUpdateWithoutOrcamentosInput>
+    create: XOR<ItemCreateWithoutOrcamentosInput, ItemUncheckedCreateWithoutOrcamentosInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutOrcamentosInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutOrcamentosInput, ItemUncheckedUpdateWithoutOrcamentosInput>
+  }
+
+  export type ItemUpdateWithoutOrcamentosInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subname?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    pedidos?: PedidoUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutOrcamentosInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subname?: StringFieldUpdateOperationsInput | string
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemCreateManyCategoryInput = {
@@ -6737,7 +8717,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
-    pedido?: PedidoUpdateOneWithoutItemNestedInput
+    pedidos?: PedidoUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutCategoryInput = {
@@ -6748,7 +8729,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
-    pedido?: PedidoUncheckedUpdateOneWithoutItemNestedInput
+    pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -6759,6 +8741,92 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PedidoCreateManyItemInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    createdAt?: Date | string
+    status?: $Enums.StatusPedido
+  }
+
+  export type OrcamentoCreateManyItemInput = {
+    id?: string
+    quantidade: number
+    material: string
+    dataEmissao: Date | string
+    operacao: string
+    cliente?: string | null
+    valor: number
+    createdAt?: Date | string
+    status?: $Enums.StatusOrcamento
+  }
+
+  export type PedidoUpdateWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
+  }
+
+  export type PedidoUncheckedUpdateWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
+  }
+
+  export type PedidoUncheckedUpdateManyWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusPedidoFieldUpdateOperationsInput | $Enums.StatusPedido
+  }
+
+  export type OrcamentoUpdateWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUncheckedUpdateWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+  }
+
+  export type OrcamentoUncheckedUpdateManyWithoutItemInput = {
+    quantidade?: IntFieldUpdateOperationsInput | number
+    material?: StringFieldUpdateOperationsInput | string
+    dataEmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    operacao?: StringFieldUpdateOperationsInput | string
+    cliente?: NullableStringFieldUpdateOperationsInput | string | null
+    valor?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
   }
 
 
