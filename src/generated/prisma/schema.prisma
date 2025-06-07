@@ -1,5 +1,5 @@
-// This is your Prisma  file,
-// learn more about it in the docs: https://pris.ly/d/prisma-
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
@@ -31,7 +31,14 @@ enum StatusOrcamento {
   APROVADO
   REJEITADO
   CANCELADO
-  CONVERTIDO
+  EM_ANDAMENTO
+}
+
+enum FileType {
+  PDF
+  DWG
+  IMAGE
+  OTHER
 }
 
 model Customer {
@@ -40,7 +47,7 @@ model Customer {
   email      String    @unique
   password   String
   status     Boolean
-  role       Role      @default(USER) // <-- Enum em vez de booleano
+  role       Role      @default(USER)
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -61,31 +68,40 @@ model Item {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   subname    String
-  imagePath  String?
-  filePath   String?
   createdAt  DateTime    @default(now())
-  categoryId String
+  categoryId String      @db.ObjectId
   status     String      @default("PENDENTE")
   category   Category    @relation(fields: [categoryId], references: [id])
   itemType   String?
-  pedidos    Pedido[] // Relação um-para-muitos
-  orcamentos Orcamento[] // Relação um-para-muitos
+  files      ItemFile[]
+  pedidos    Pedido[]
+  orcamentos Orcamento[]
 
   @@map("items")
 }
 
+model ItemFile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  path      String
+  type      FileType
+  item      Item     @relation(fields: [itemId], references: [id])
+  itemId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  @@map("item_files")
+}
+
 model Pedido {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   quantidade  Int
   material    String
   dataEmissao DateTime
   operacao    String
   cliente     String?
-  itemId      String   @db.ObjectId // REMOVA @unique daqui
-  item        Item     @relation(fields: [itemId], references: [id])
-  createdAt   DateTime @default(now())
-
-  status StatusPedido @default(PENDENTE)
+  itemId      String       @db.ObjectId
+  item        Item         @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  status      StatusPedido @default(PENDENTE)
 
   @@map("pedidos")
 }
@@ -98,10 +114,23 @@ model Orcamento {
   operacao    String
   cliente     String?
   itemId      String          @db.ObjectId
-  item        Item            @relation(fields: [itemId], references: [id])
+  item        Item            @relation(fields: [itemId], references: [id], onDelete: Cascade)
   valor       Float
   createdAt   DateTime        @default(now())
-  status      StatusOrcamento @default(PENDENTE) // Garantir que use o enum
+  status      StatusOrcamento @default(PENDENTE)
 
-  @@map("orcamentos") // Mude para plural para consistência
+  @@map("orcamentos")
+}
+
+model Historico {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  acao        String
+  entidade    String
+  entidadeId  String   @db.ObjectId
+  dados       String?
+  usuarioId   String?  @db.ObjectId
+  usuarioNome String?
+  createdAt   DateTime @default(now())
+
+  @@map("historico")
 }

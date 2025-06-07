@@ -135,12 +135,18 @@ exports.Prisma.ItemScalarFieldEnum = {
   id: 'id',
   name: 'name',
   subname: 'subname',
-  imagePath: 'imagePath',
-  filePath: 'filePath',
   createdAt: 'createdAt',
   categoryId: 'categoryId',
   status: 'status',
   itemType: 'itemType'
+};
+
+exports.Prisma.ItemFileScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  type: 'type',
+  itemId: 'itemId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PedidoScalarFieldEnum = {
@@ -168,6 +174,17 @@ exports.Prisma.OrcamentoScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.HistoricoScalarFieldEnum = {
+  id: 'id',
+  acao: 'acao',
+  entidade: 'entidade',
+  entidadeId: 'entidadeId',
+  dados: 'dados',
+  usuarioId: 'usuarioId',
+  usuarioNome: 'usuarioNome',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -182,6 +199,13 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.FileType = exports.$Enums.FileType = {
+  PDF: 'PDF',
+  DWG: 'DWG',
+  IMAGE: 'IMAGE',
+  OTHER: 'OTHER'
+};
+
 exports.StatusPedido = exports.$Enums.StatusPedido = {
   PENDENTE: 'PENDENTE',
   EM_ANDAMENTO: 'EM_ANDAMENTO',
@@ -194,15 +218,17 @@ exports.StatusOrcamento = exports.$Enums.StatusOrcamento = {
   APROVADO: 'APROVADO',
   REJEITADO: 'REJEITADO',
   CANCELADO: 'CANCELADO',
-  CONVERTIDO: 'CONVERTIDO'
+  EM_ANDAMENTO: 'EM_ANDAMENTO'
 };
 
 exports.Prisma.ModelName = {
   Customer: 'Customer',
   Category: 'Category',
   Item: 'Item',
+  ItemFile: 'ItemFile',
   Pedido: 'Pedido',
-  Orcamento: 'Orcamento'
+  Orcamento: 'Orcamento',
+  Historico: 'Historico'
 };
 
 /**

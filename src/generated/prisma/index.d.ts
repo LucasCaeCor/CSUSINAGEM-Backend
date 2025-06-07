@@ -29,6 +29,11 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  */
 export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
 /**
+ * Model ItemFile
+ * 
+ */
+export type ItemFile = $Result.DefaultSelection<Prisma.$ItemFilePayload>
+/**
  * Model Pedido
  * 
  */
@@ -38,6 +43,11 @@ export type Pedido = $Result.DefaultSelection<Prisma.$PedidoPayload>
  * 
  */
 export type Orcamento = $Result.DefaultSelection<Prisma.$OrcamentoPayload>
+/**
+ * Model Historico
+ * 
+ */
+export type Historico = $Result.DefaultSelection<Prisma.$HistoricoPayload>
 
 /**
  * Enums
@@ -66,10 +76,20 @@ export const StatusOrcamento: {
   APROVADO: 'APROVADO',
   REJEITADO: 'REJEITADO',
   CANCELADO: 'CANCELADO',
-  CONVERTIDO: 'CONVERTIDO'
+  EM_ANDAMENTO: 'EM_ANDAMENTO'
 };
 
 export type StatusOrcamento = (typeof StatusOrcamento)[keyof typeof StatusOrcamento]
+
+
+export const FileType: {
+  PDF: 'PDF',
+  DWG: 'DWG',
+  IMAGE: 'IMAGE',
+  OTHER: 'OTHER'
+};
+
+export type FileType = (typeof FileType)[keyof typeof FileType]
 
 }
 
@@ -84,6 +104,10 @@ export const StatusPedido: typeof $Enums.StatusPedido
 export type StatusOrcamento = $Enums.StatusOrcamento
 
 export const StatusOrcamento: typeof $Enums.StatusOrcamento
+
+export type FileType = $Enums.FileType
+
+export const FileType: typeof $Enums.FileType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -208,6 +232,16 @@ export class PrismaClient<
   get item(): Prisma.ItemDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.itemFile`: Exposes CRUD operations for the **ItemFile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ItemFiles
+    * const itemFiles = await prisma.itemFile.findMany()
+    * ```
+    */
+  get itemFile(): Prisma.ItemFileDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.pedido`: Exposes CRUD operations for the **Pedido** model.
     * Example usage:
     * ```ts
@@ -226,6 +260,16 @@ export class PrismaClient<
     * ```
     */
   get orcamento(): Prisma.OrcamentoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.historico`: Exposes CRUD operations for the **Historico** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Historicos
+    * const historicos = await prisma.historico.findMany()
+    * ```
+    */
+  get historico(): Prisma.HistoricoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -669,8 +713,10 @@ export namespace Prisma {
     Customer: 'Customer',
     Category: 'Category',
     Item: 'Item',
+    ItemFile: 'ItemFile',
     Pedido: 'Pedido',
-    Orcamento: 'Orcamento'
+    Orcamento: 'Orcamento',
+    Historico: 'Historico'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -689,7 +735,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "customer" | "category" | "item" | "pedido" | "orcamento"
+      modelProps: "customer" | "category" | "item" | "itemFile" | "pedido" | "orcamento" | "historico"
       txIsolationLevel: never
     }
     model: {
@@ -915,6 +961,80 @@ export namespace Prisma {
           }
         }
       }
+      ItemFile: {
+        payload: Prisma.$ItemFilePayload<ExtArgs>
+        fields: Prisma.ItemFileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemFileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemFileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          findFirst: {
+            args: Prisma.ItemFileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemFileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          findMany: {
+            args: Prisma.ItemFileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>[]
+          }
+          create: {
+            args: Prisma.ItemFileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          createMany: {
+            args: Prisma.ItemFileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ItemFileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          update: {
+            args: Prisma.ItemFileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemFileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemFileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ItemFileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemFilePayload>
+          }
+          aggregate: {
+            args: Prisma.ItemFileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItemFile>
+          }
+          groupBy: {
+            args: Prisma.ItemFileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemFileGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.ItemFileFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.ItemFileAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.ItemFileCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemFileCountAggregateOutputType> | number
+          }
+        }
+      }
       Pedido: {
         payload: Prisma.$PedidoPayload<ExtArgs>
         fields: Prisma.PedidoFieldRefs
@@ -1063,6 +1183,80 @@ export namespace Prisma {
           }
         }
       }
+      Historico: {
+        payload: Prisma.$HistoricoPayload<ExtArgs>
+        fields: Prisma.HistoricoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HistoricoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HistoricoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          findFirst: {
+            args: Prisma.HistoricoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HistoricoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          findMany: {
+            args: Prisma.HistoricoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>[]
+          }
+          create: {
+            args: Prisma.HistoricoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          createMany: {
+            args: Prisma.HistoricoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.HistoricoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          update: {
+            args: Prisma.HistoricoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          deleteMany: {
+            args: Prisma.HistoricoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HistoricoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.HistoricoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricoPayload>
+          }
+          aggregate: {
+            args: Prisma.HistoricoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHistorico>
+          }
+          groupBy: {
+            args: Prisma.HistoricoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HistoricoGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.HistoricoFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.HistoricoAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.HistoricoCountArgs<ExtArgs>
+            result: $Utils.Optional<HistoricoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1137,8 +1331,10 @@ export namespace Prisma {
     customer?: CustomerOmit
     category?: CategoryOmit
     item?: ItemOmit
+    itemFile?: ItemFileOmit
     pedido?: PedidoOmit
     orcamento?: OrcamentoOmit
+    historico?: HistoricoOmit
   }
 
   /* Types for Logging */
@@ -1264,11 +1460,13 @@ export namespace Prisma {
    */
 
   export type ItemCountOutputType = {
+    files: number
     pedidos: number
     orcamentos: number
   }
 
   export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    files?: boolean | ItemCountOutputTypeCountFilesArgs
     pedidos?: boolean | ItemCountOutputTypeCountPedidosArgs
     orcamentos?: boolean | ItemCountOutputTypeCountOrcamentosArgs
   }
@@ -1282,6 +1480,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the ItemCountOutputType
      */
     select?: ItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemFileWhereInput
   }
 
   /**
@@ -3276,8 +3481,6 @@ export namespace Prisma {
     id: string | null
     name: string | null
     subname: string | null
-    imagePath: string | null
-    filePath: string | null
     createdAt: Date | null
     categoryId: string | null
     status: string | null
@@ -3288,8 +3491,6 @@ export namespace Prisma {
     id: string | null
     name: string | null
     subname: string | null
-    imagePath: string | null
-    filePath: string | null
     createdAt: Date | null
     categoryId: string | null
     status: string | null
@@ -3300,8 +3501,6 @@ export namespace Prisma {
     id: number
     name: number
     subname: number
-    imagePath: number
-    filePath: number
     createdAt: number
     categoryId: number
     status: number
@@ -3314,8 +3513,6 @@ export namespace Prisma {
     id?: true
     name?: true
     subname?: true
-    imagePath?: true
-    filePath?: true
     createdAt?: true
     categoryId?: true
     status?: true
@@ -3326,8 +3523,6 @@ export namespace Prisma {
     id?: true
     name?: true
     subname?: true
-    imagePath?: true
-    filePath?: true
     createdAt?: true
     categoryId?: true
     status?: true
@@ -3338,8 +3533,6 @@ export namespace Prisma {
     id?: true
     name?: true
     subname?: true
-    imagePath?: true
-    filePath?: true
     createdAt?: true
     categoryId?: true
     status?: true
@@ -3423,8 +3616,6 @@ export namespace Prisma {
     id: string
     name: string
     subname: string
-    imagePath: string | null
-    filePath: string | null
     createdAt: Date
     categoryId: string
     status: string
@@ -3452,13 +3643,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     subname?: boolean
-    imagePath?: boolean
-    filePath?: boolean
     createdAt?: boolean
     categoryId?: boolean
     status?: boolean
     itemType?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    files?: boolean | Item$filesArgs<ExtArgs>
     pedidos?: boolean | Item$pedidosArgs<ExtArgs>
     orcamentos?: boolean | Item$orcamentosArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
@@ -3470,17 +3660,16 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     subname?: boolean
-    imagePath?: boolean
-    filePath?: boolean
     createdAt?: boolean
     categoryId?: boolean
     status?: boolean
     itemType?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subname" | "imagePath" | "filePath" | "createdAt" | "categoryId" | "status" | "itemType", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subname" | "createdAt" | "categoryId" | "status" | "itemType", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    files?: boolean | Item$filesArgs<ExtArgs>
     pedidos?: boolean | Item$pedidosArgs<ExtArgs>
     orcamentos?: boolean | Item$orcamentosArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
@@ -3490,6 +3679,7 @@ export namespace Prisma {
     name: "Item"
     objects: {
       category: Prisma.$CategoryPayload<ExtArgs>
+      files: Prisma.$ItemFilePayload<ExtArgs>[]
       pedidos: Prisma.$PedidoPayload<ExtArgs>[]
       orcamentos: Prisma.$OrcamentoPayload<ExtArgs>[]
     }
@@ -3497,8 +3687,6 @@ export namespace Prisma {
       id: string
       name: string
       subname: string
-      imagePath: string | null
-      filePath: string | null
       createdAt: Date
       categoryId: string
       status: string
@@ -3867,6 +4055,7 @@ export namespace Prisma {
   export interface Prisma__ItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    files<T extends Item$filesArgs<ExtArgs> = {}>(args?: Subset<T, Item$filesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pedidos<T extends Item$pedidosArgs<ExtArgs> = {}>(args?: Subset<T, Item$pedidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PedidoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orcamentos<T extends Item$orcamentosArgs<ExtArgs> = {}>(args?: Subset<T, Item$orcamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrcamentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3901,8 +4090,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Item", 'String'>
     readonly name: FieldRef<"Item", 'String'>
     readonly subname: FieldRef<"Item", 'String'>
-    readonly imagePath: FieldRef<"Item", 'String'>
-    readonly filePath: FieldRef<"Item", 'String'>
     readonly createdAt: FieldRef<"Item", 'DateTime'>
     readonly categoryId: FieldRef<"Item", 'String'>
     readonly status: FieldRef<"Item", 'String'>
@@ -4277,6 +4464,30 @@ export namespace Prisma {
   }
 
   /**
+   * Item.files
+   */
+  export type Item$filesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    where?: ItemFileWhereInput
+    orderBy?: ItemFileOrderByWithRelationInput | ItemFileOrderByWithRelationInput[]
+    cursor?: ItemFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemFileScalarFieldEnum | ItemFileScalarFieldEnum[]
+  }
+
+  /**
    * Item.pedidos
    */
   export type Item$pedidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4340,6 +4551,985 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ItemFile
+   */
+
+  export type AggregateItemFile = {
+    _count: ItemFileCountAggregateOutputType | null
+    _min: ItemFileMinAggregateOutputType | null
+    _max: ItemFileMaxAggregateOutputType | null
+  }
+
+  export type ItemFileMinAggregateOutputType = {
+    id: string | null
+    path: string | null
+    type: $Enums.FileType | null
+    itemId: string | null
+    createdAt: Date | null
+  }
+
+  export type ItemFileMaxAggregateOutputType = {
+    id: string | null
+    path: string | null
+    type: $Enums.FileType | null
+    itemId: string | null
+    createdAt: Date | null
+  }
+
+  export type ItemFileCountAggregateOutputType = {
+    id: number
+    path: number
+    type: number
+    itemId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ItemFileMinAggregateInputType = {
+    id?: true
+    path?: true
+    type?: true
+    itemId?: true
+    createdAt?: true
+  }
+
+  export type ItemFileMaxAggregateInputType = {
+    id?: true
+    path?: true
+    type?: true
+    itemId?: true
+    createdAt?: true
+  }
+
+  export type ItemFileCountAggregateInputType = {
+    id?: true
+    path?: true
+    type?: true
+    itemId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ItemFileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemFile to aggregate.
+     */
+    where?: ItemFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemFiles to fetch.
+     */
+    orderBy?: ItemFileOrderByWithRelationInput | ItemFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ItemFiles
+    **/
+    _count?: true | ItemFileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemFileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemFileMaxAggregateInputType
+  }
+
+  export type GetItemFileAggregateType<T extends ItemFileAggregateArgs> = {
+        [P in keyof T & keyof AggregateItemFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItemFile[P]>
+      : GetScalarType<T[P], AggregateItemFile[P]>
+  }
+
+
+
+
+  export type ItemFileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemFileWhereInput
+    orderBy?: ItemFileOrderByWithAggregationInput | ItemFileOrderByWithAggregationInput[]
+    by: ItemFileScalarFieldEnum[] | ItemFileScalarFieldEnum
+    having?: ItemFileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemFileCountAggregateInputType | true
+    _min?: ItemFileMinAggregateInputType
+    _max?: ItemFileMaxAggregateInputType
+  }
+
+  export type ItemFileGroupByOutputType = {
+    id: string
+    path: string
+    type: $Enums.FileType
+    itemId: string
+    createdAt: Date
+    _count: ItemFileCountAggregateOutputType | null
+    _min: ItemFileMinAggregateOutputType | null
+    _max: ItemFileMaxAggregateOutputType | null
+  }
+
+  type GetItemFileGroupByPayload<T extends ItemFileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemFileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemFileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemFileGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemFileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    path?: boolean
+    type?: boolean
+    itemId?: boolean
+    createdAt?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemFile"]>
+
+
+
+  export type ItemFileSelectScalar = {
+    id?: boolean
+    path?: boolean
+    type?: boolean
+    itemId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ItemFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "path" | "type" | "itemId" | "createdAt", ExtArgs["result"]["itemFile"]>
+  export type ItemFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+
+  export type $ItemFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ItemFile"
+    objects: {
+      item: Prisma.$ItemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      path: string
+      type: $Enums.FileType
+      itemId: string
+      createdAt: Date
+    }, ExtArgs["result"]["itemFile"]>
+    composites: {}
+  }
+
+  type ItemFileGetPayload<S extends boolean | null | undefined | ItemFileDefaultArgs> = $Result.GetResult<Prisma.$ItemFilePayload, S>
+
+  type ItemFileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemFileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemFileCountAggregateInputType | true
+    }
+
+  export interface ItemFileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ItemFile'], meta: { name: 'ItemFile' } }
+    /**
+     * Find zero or one ItemFile that matches the filter.
+     * @param {ItemFileFindUniqueArgs} args - Arguments to find a ItemFile
+     * @example
+     * // Get one ItemFile
+     * const itemFile = await prisma.itemFile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemFileFindUniqueArgs>(args: SelectSubset<T, ItemFileFindUniqueArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ItemFile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemFileFindUniqueOrThrowArgs} args - Arguments to find a ItemFile
+     * @example
+     * // Get one ItemFile
+     * const itemFile = await prisma.itemFile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemFileFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemFileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemFile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileFindFirstArgs} args - Arguments to find a ItemFile
+     * @example
+     * // Get one ItemFile
+     * const itemFile = await prisma.itemFile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemFileFindFirstArgs>(args?: SelectSubset<T, ItemFileFindFirstArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemFile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileFindFirstOrThrowArgs} args - Arguments to find a ItemFile
+     * @example
+     * // Get one ItemFile
+     * const itemFile = await prisma.itemFile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemFileFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemFileFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemFiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ItemFiles
+     * const itemFiles = await prisma.itemFile.findMany()
+     * 
+     * // Get first 10 ItemFiles
+     * const itemFiles = await prisma.itemFile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemFileWithIdOnly = await prisma.itemFile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemFileFindManyArgs>(args?: SelectSubset<T, ItemFileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ItemFile.
+     * @param {ItemFileCreateArgs} args - Arguments to create a ItemFile.
+     * @example
+     * // Create one ItemFile
+     * const ItemFile = await prisma.itemFile.create({
+     *   data: {
+     *     // ... data to create a ItemFile
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemFileCreateArgs>(args: SelectSubset<T, ItemFileCreateArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ItemFiles.
+     * @param {ItemFileCreateManyArgs} args - Arguments to create many ItemFiles.
+     * @example
+     * // Create many ItemFiles
+     * const itemFile = await prisma.itemFile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemFileCreateManyArgs>(args?: SelectSubset<T, ItemFileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ItemFile.
+     * @param {ItemFileDeleteArgs} args - Arguments to delete one ItemFile.
+     * @example
+     * // Delete one ItemFile
+     * const ItemFile = await prisma.itemFile.delete({
+     *   where: {
+     *     // ... filter to delete one ItemFile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemFileDeleteArgs>(args: SelectSubset<T, ItemFileDeleteArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ItemFile.
+     * @param {ItemFileUpdateArgs} args - Arguments to update one ItemFile.
+     * @example
+     * // Update one ItemFile
+     * const itemFile = await prisma.itemFile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemFileUpdateArgs>(args: SelectSubset<T, ItemFileUpdateArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ItemFiles.
+     * @param {ItemFileDeleteManyArgs} args - Arguments to filter ItemFiles to delete.
+     * @example
+     * // Delete a few ItemFiles
+     * const { count } = await prisma.itemFile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemFileDeleteManyArgs>(args?: SelectSubset<T, ItemFileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ItemFiles
+     * const itemFile = await prisma.itemFile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemFileUpdateManyArgs>(args: SelectSubset<T, ItemFileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ItemFile.
+     * @param {ItemFileUpsertArgs} args - Arguments to update or create a ItemFile.
+     * @example
+     * // Update or create a ItemFile
+     * const itemFile = await prisma.itemFile.upsert({
+     *   create: {
+     *     // ... data to create a ItemFile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ItemFile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemFileUpsertArgs>(args: SelectSubset<T, ItemFileUpsertArgs<ExtArgs>>): Prisma__ItemFileClient<$Result.GetResult<Prisma.$ItemFilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemFiles that matches the filter.
+     * @param {ItemFileFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const itemFile = await prisma.itemFile.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: ItemFileFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a ItemFile.
+     * @param {ItemFileAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const itemFile = await prisma.itemFile.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: ItemFileAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of ItemFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileCountArgs} args - Arguments to filter ItemFiles to count.
+     * @example
+     * // Count the number of ItemFiles
+     * const count = await prisma.itemFile.count({
+     *   where: {
+     *     // ... the filter for the ItemFiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemFileCountArgs>(
+      args?: Subset<T, ItemFileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemFileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ItemFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemFileAggregateArgs>(args: Subset<T, ItemFileAggregateArgs>): Prisma.PrismaPromise<GetItemFileAggregateType<T>>
+
+    /**
+     * Group by ItemFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemFileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemFileGroupByArgs['orderBy'] }
+        : { orderBy?: ItemFileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemFileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ItemFile model
+   */
+  readonly fields: ItemFileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ItemFile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ItemFile model
+   */
+  interface ItemFileFieldRefs {
+    readonly id: FieldRef<"ItemFile", 'String'>
+    readonly path: FieldRef<"ItemFile", 'String'>
+    readonly type: FieldRef<"ItemFile", 'FileType'>
+    readonly itemId: FieldRef<"ItemFile", 'String'>
+    readonly createdAt: FieldRef<"ItemFile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ItemFile findUnique
+   */
+  export type ItemFileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemFile to fetch.
+     */
+    where: ItemFileWhereUniqueInput
+  }
+
+  /**
+   * ItemFile findUniqueOrThrow
+   */
+  export type ItemFileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemFile to fetch.
+     */
+    where: ItemFileWhereUniqueInput
+  }
+
+  /**
+   * ItemFile findFirst
+   */
+  export type ItemFileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemFile to fetch.
+     */
+    where?: ItemFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemFiles to fetch.
+     */
+    orderBy?: ItemFileOrderByWithRelationInput | ItemFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemFiles.
+     */
+    cursor?: ItemFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemFiles.
+     */
+    distinct?: ItemFileScalarFieldEnum | ItemFileScalarFieldEnum[]
+  }
+
+  /**
+   * ItemFile findFirstOrThrow
+   */
+  export type ItemFileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemFile to fetch.
+     */
+    where?: ItemFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemFiles to fetch.
+     */
+    orderBy?: ItemFileOrderByWithRelationInput | ItemFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemFiles.
+     */
+    cursor?: ItemFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemFiles.
+     */
+    distinct?: ItemFileScalarFieldEnum | ItemFileScalarFieldEnum[]
+  }
+
+  /**
+   * ItemFile findMany
+   */
+  export type ItemFileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemFiles to fetch.
+     */
+    where?: ItemFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemFiles to fetch.
+     */
+    orderBy?: ItemFileOrderByWithRelationInput | ItemFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ItemFiles.
+     */
+    cursor?: ItemFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemFiles.
+     */
+    skip?: number
+    distinct?: ItemFileScalarFieldEnum | ItemFileScalarFieldEnum[]
+  }
+
+  /**
+   * ItemFile create
+   */
+  export type ItemFileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ItemFile.
+     */
+    data: XOR<ItemFileCreateInput, ItemFileUncheckedCreateInput>
+  }
+
+  /**
+   * ItemFile createMany
+   */
+  export type ItemFileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ItemFiles.
+     */
+    data: ItemFileCreateManyInput | ItemFileCreateManyInput[]
+  }
+
+  /**
+   * ItemFile update
+   */
+  export type ItemFileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ItemFile.
+     */
+    data: XOR<ItemFileUpdateInput, ItemFileUncheckedUpdateInput>
+    /**
+     * Choose, which ItemFile to update.
+     */
+    where: ItemFileWhereUniqueInput
+  }
+
+  /**
+   * ItemFile updateMany
+   */
+  export type ItemFileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ItemFiles.
+     */
+    data: XOR<ItemFileUpdateManyMutationInput, ItemFileUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemFiles to update
+     */
+    where?: ItemFileWhereInput
+    /**
+     * Limit how many ItemFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemFile upsert
+   */
+  export type ItemFileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ItemFile to update in case it exists.
+     */
+    where: ItemFileWhereUniqueInput
+    /**
+     * In case the ItemFile found by the `where` argument doesn't exist, create a new ItemFile with this data.
+     */
+    create: XOR<ItemFileCreateInput, ItemFileUncheckedCreateInput>
+    /**
+     * In case the ItemFile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemFileUpdateInput, ItemFileUncheckedUpdateInput>
+  }
+
+  /**
+   * ItemFile delete
+   */
+  export type ItemFileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
+    /**
+     * Filter which ItemFile to delete.
+     */
+    where: ItemFileWhereUniqueInput
+  }
+
+  /**
+   * ItemFile deleteMany
+   */
+  export type ItemFileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemFiles to delete
+     */
+    where?: ItemFileWhereInput
+    /**
+     * Limit how many ItemFiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemFile findRaw
+   */
+  export type ItemFileFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * ItemFile aggregateRaw
+   */
+  export type ItemFileAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * ItemFile without action
+   */
+  export type ItemFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFile
+     */
+    select?: ItemFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFile
+     */
+    omit?: ItemFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFileInclude<ExtArgs> | null
   }
 
 
@@ -6473,6 +7663,971 @@ export namespace Prisma {
 
 
   /**
+   * Model Historico
+   */
+
+  export type AggregateHistorico = {
+    _count: HistoricoCountAggregateOutputType | null
+    _min: HistoricoMinAggregateOutputType | null
+    _max: HistoricoMaxAggregateOutputType | null
+  }
+
+  export type HistoricoMinAggregateOutputType = {
+    id: string | null
+    acao: string | null
+    entidade: string | null
+    entidadeId: string | null
+    dados: string | null
+    usuarioId: string | null
+    usuarioNome: string | null
+    createdAt: Date | null
+  }
+
+  export type HistoricoMaxAggregateOutputType = {
+    id: string | null
+    acao: string | null
+    entidade: string | null
+    entidadeId: string | null
+    dados: string | null
+    usuarioId: string | null
+    usuarioNome: string | null
+    createdAt: Date | null
+  }
+
+  export type HistoricoCountAggregateOutputType = {
+    id: number
+    acao: number
+    entidade: number
+    entidadeId: number
+    dados: number
+    usuarioId: number
+    usuarioNome: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HistoricoMinAggregateInputType = {
+    id?: true
+    acao?: true
+    entidade?: true
+    entidadeId?: true
+    dados?: true
+    usuarioId?: true
+    usuarioNome?: true
+    createdAt?: true
+  }
+
+  export type HistoricoMaxAggregateInputType = {
+    id?: true
+    acao?: true
+    entidade?: true
+    entidadeId?: true
+    dados?: true
+    usuarioId?: true
+    usuarioNome?: true
+    createdAt?: true
+  }
+
+  export type HistoricoCountAggregateInputType = {
+    id?: true
+    acao?: true
+    entidade?: true
+    entidadeId?: true
+    dados?: true
+    usuarioId?: true
+    usuarioNome?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HistoricoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Historico to aggregate.
+     */
+    where?: HistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Historicos to fetch.
+     */
+    orderBy?: HistoricoOrderByWithRelationInput | HistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Historicos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Historicos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Historicos
+    **/
+    _count?: true | HistoricoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HistoricoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HistoricoMaxAggregateInputType
+  }
+
+  export type GetHistoricoAggregateType<T extends HistoricoAggregateArgs> = {
+        [P in keyof T & keyof AggregateHistorico]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHistorico[P]>
+      : GetScalarType<T[P], AggregateHistorico[P]>
+  }
+
+
+
+
+  export type HistoricoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricoWhereInput
+    orderBy?: HistoricoOrderByWithAggregationInput | HistoricoOrderByWithAggregationInput[]
+    by: HistoricoScalarFieldEnum[] | HistoricoScalarFieldEnum
+    having?: HistoricoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HistoricoCountAggregateInputType | true
+    _min?: HistoricoMinAggregateInputType
+    _max?: HistoricoMaxAggregateInputType
+  }
+
+  export type HistoricoGroupByOutputType = {
+    id: string
+    acao: string
+    entidade: string
+    entidadeId: string
+    dados: string | null
+    usuarioId: string | null
+    usuarioNome: string | null
+    createdAt: Date
+    _count: HistoricoCountAggregateOutputType | null
+    _min: HistoricoMinAggregateOutputType | null
+    _max: HistoricoMaxAggregateOutputType | null
+  }
+
+  type GetHistoricoGroupByPayload<T extends HistoricoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HistoricoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HistoricoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HistoricoGroupByOutputType[P]>
+            : GetScalarType<T[P], HistoricoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HistoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    acao?: boolean
+    entidade?: boolean
+    entidadeId?: boolean
+    dados?: boolean
+    usuarioId?: boolean
+    usuarioNome?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["historico"]>
+
+
+
+  export type HistoricoSelectScalar = {
+    id?: boolean
+    acao?: boolean
+    entidade?: boolean
+    entidadeId?: boolean
+    dados?: boolean
+    usuarioId?: boolean
+    usuarioNome?: boolean
+    createdAt?: boolean
+  }
+
+  export type HistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "acao" | "entidade" | "entidadeId" | "dados" | "usuarioId" | "usuarioNome" | "createdAt", ExtArgs["result"]["historico"]>
+
+  export type $HistoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Historico"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      acao: string
+      entidade: string
+      entidadeId: string
+      dados: string | null
+      usuarioId: string | null
+      usuarioNome: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["historico"]>
+    composites: {}
+  }
+
+  type HistoricoGetPayload<S extends boolean | null | undefined | HistoricoDefaultArgs> = $Result.GetResult<Prisma.$HistoricoPayload, S>
+
+  type HistoricoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HistoricoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HistoricoCountAggregateInputType | true
+    }
+
+  export interface HistoricoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Historico'], meta: { name: 'Historico' } }
+    /**
+     * Find zero or one Historico that matches the filter.
+     * @param {HistoricoFindUniqueArgs} args - Arguments to find a Historico
+     * @example
+     * // Get one Historico
+     * const historico = await prisma.historico.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HistoricoFindUniqueArgs>(args: SelectSubset<T, HistoricoFindUniqueArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Historico that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HistoricoFindUniqueOrThrowArgs} args - Arguments to find a Historico
+     * @example
+     * // Get one Historico
+     * const historico = await prisma.historico.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HistoricoFindUniqueOrThrowArgs>(args: SelectSubset<T, HistoricoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Historico that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoFindFirstArgs} args - Arguments to find a Historico
+     * @example
+     * // Get one Historico
+     * const historico = await prisma.historico.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HistoricoFindFirstArgs>(args?: SelectSubset<T, HistoricoFindFirstArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Historico that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoFindFirstOrThrowArgs} args - Arguments to find a Historico
+     * @example
+     * // Get one Historico
+     * const historico = await prisma.historico.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HistoricoFindFirstOrThrowArgs>(args?: SelectSubset<T, HistoricoFindFirstOrThrowArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Historicos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Historicos
+     * const historicos = await prisma.historico.findMany()
+     * 
+     * // Get first 10 Historicos
+     * const historicos = await prisma.historico.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const historicoWithIdOnly = await prisma.historico.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HistoricoFindManyArgs>(args?: SelectSubset<T, HistoricoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Historico.
+     * @param {HistoricoCreateArgs} args - Arguments to create a Historico.
+     * @example
+     * // Create one Historico
+     * const Historico = await prisma.historico.create({
+     *   data: {
+     *     // ... data to create a Historico
+     *   }
+     * })
+     * 
+     */
+    create<T extends HistoricoCreateArgs>(args: SelectSubset<T, HistoricoCreateArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Historicos.
+     * @param {HistoricoCreateManyArgs} args - Arguments to create many Historicos.
+     * @example
+     * // Create many Historicos
+     * const historico = await prisma.historico.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HistoricoCreateManyArgs>(args?: SelectSubset<T, HistoricoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Historico.
+     * @param {HistoricoDeleteArgs} args - Arguments to delete one Historico.
+     * @example
+     * // Delete one Historico
+     * const Historico = await prisma.historico.delete({
+     *   where: {
+     *     // ... filter to delete one Historico
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HistoricoDeleteArgs>(args: SelectSubset<T, HistoricoDeleteArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Historico.
+     * @param {HistoricoUpdateArgs} args - Arguments to update one Historico.
+     * @example
+     * // Update one Historico
+     * const historico = await prisma.historico.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HistoricoUpdateArgs>(args: SelectSubset<T, HistoricoUpdateArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Historicos.
+     * @param {HistoricoDeleteManyArgs} args - Arguments to filter Historicos to delete.
+     * @example
+     * // Delete a few Historicos
+     * const { count } = await prisma.historico.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HistoricoDeleteManyArgs>(args?: SelectSubset<T, HistoricoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Historicos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Historicos
+     * const historico = await prisma.historico.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HistoricoUpdateManyArgs>(args: SelectSubset<T, HistoricoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Historico.
+     * @param {HistoricoUpsertArgs} args - Arguments to update or create a Historico.
+     * @example
+     * // Update or create a Historico
+     * const historico = await prisma.historico.upsert({
+     *   create: {
+     *     // ... data to create a Historico
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Historico we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HistoricoUpsertArgs>(args: SelectSubset<T, HistoricoUpsertArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Historicos that matches the filter.
+     * @param {HistoricoFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const historico = await prisma.historico.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: HistoricoFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Historico.
+     * @param {HistoricoAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const historico = await prisma.historico.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: HistoricoAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of Historicos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoCountArgs} args - Arguments to filter Historicos to count.
+     * @example
+     * // Count the number of Historicos
+     * const count = await prisma.historico.count({
+     *   where: {
+     *     // ... the filter for the Historicos we want to count
+     *   }
+     * })
+    **/
+    count<T extends HistoricoCountArgs>(
+      args?: Subset<T, HistoricoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HistoricoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Historico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HistoricoAggregateArgs>(args: Subset<T, HistoricoAggregateArgs>): Prisma.PrismaPromise<GetHistoricoAggregateType<T>>
+
+    /**
+     * Group by Historico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HistoricoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HistoricoGroupByArgs['orderBy'] }
+        : { orderBy?: HistoricoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HistoricoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHistoricoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Historico model
+   */
+  readonly fields: HistoricoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Historico.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HistoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Historico model
+   */
+  interface HistoricoFieldRefs {
+    readonly id: FieldRef<"Historico", 'String'>
+    readonly acao: FieldRef<"Historico", 'String'>
+    readonly entidade: FieldRef<"Historico", 'String'>
+    readonly entidadeId: FieldRef<"Historico", 'String'>
+    readonly dados: FieldRef<"Historico", 'String'>
+    readonly usuarioId: FieldRef<"Historico", 'String'>
+    readonly usuarioNome: FieldRef<"Historico", 'String'>
+    readonly createdAt: FieldRef<"Historico", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Historico findUnique
+   */
+  export type HistoricoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which Historico to fetch.
+     */
+    where: HistoricoWhereUniqueInput
+  }
+
+  /**
+   * Historico findUniqueOrThrow
+   */
+  export type HistoricoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which Historico to fetch.
+     */
+    where: HistoricoWhereUniqueInput
+  }
+
+  /**
+   * Historico findFirst
+   */
+  export type HistoricoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which Historico to fetch.
+     */
+    where?: HistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Historicos to fetch.
+     */
+    orderBy?: HistoricoOrderByWithRelationInput | HistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Historicos.
+     */
+    cursor?: HistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Historicos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Historicos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Historicos.
+     */
+    distinct?: HistoricoScalarFieldEnum | HistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * Historico findFirstOrThrow
+   */
+  export type HistoricoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which Historico to fetch.
+     */
+    where?: HistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Historicos to fetch.
+     */
+    orderBy?: HistoricoOrderByWithRelationInput | HistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Historicos.
+     */
+    cursor?: HistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Historicos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Historicos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Historicos.
+     */
+    distinct?: HistoricoScalarFieldEnum | HistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * Historico findMany
+   */
+  export type HistoricoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which Historicos to fetch.
+     */
+    where?: HistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Historicos to fetch.
+     */
+    orderBy?: HistoricoOrderByWithRelationInput | HistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Historicos.
+     */
+    cursor?: HistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Historicos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Historicos.
+     */
+    skip?: number
+    distinct?: HistoricoScalarFieldEnum | HistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * Historico create
+   */
+  export type HistoricoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Historico.
+     */
+    data: XOR<HistoricoCreateInput, HistoricoUncheckedCreateInput>
+  }
+
+  /**
+   * Historico createMany
+   */
+  export type HistoricoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Historicos.
+     */
+    data: HistoricoCreateManyInput | HistoricoCreateManyInput[]
+  }
+
+  /**
+   * Historico update
+   */
+  export type HistoricoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Historico.
+     */
+    data: XOR<HistoricoUpdateInput, HistoricoUncheckedUpdateInput>
+    /**
+     * Choose, which Historico to update.
+     */
+    where: HistoricoWhereUniqueInput
+  }
+
+  /**
+   * Historico updateMany
+   */
+  export type HistoricoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Historicos.
+     */
+    data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyInput>
+    /**
+     * Filter which Historicos to update
+     */
+    where?: HistoricoWhereInput
+    /**
+     * Limit how many Historicos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Historico upsert
+   */
+  export type HistoricoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Historico to update in case it exists.
+     */
+    where: HistoricoWhereUniqueInput
+    /**
+     * In case the Historico found by the `where` argument doesn't exist, create a new Historico with this data.
+     */
+    create: XOR<HistoricoCreateInput, HistoricoUncheckedCreateInput>
+    /**
+     * In case the Historico was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HistoricoUpdateInput, HistoricoUncheckedUpdateInput>
+  }
+
+  /**
+   * Historico delete
+   */
+  export type HistoricoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Filter which Historico to delete.
+     */
+    where: HistoricoWhereUniqueInput
+  }
+
+  /**
+   * Historico deleteMany
+   */
+  export type HistoricoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Historicos to delete
+     */
+    where?: HistoricoWhereInput
+    /**
+     * Limit how many Historicos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Historico findRaw
+   */
+  export type HistoricoFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Historico aggregateRaw
+   */
+  export type HistoricoAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Historico without action
+   */
+  export type HistoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6504,8 +8659,6 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     subname: 'subname',
-    imagePath: 'imagePath',
-    filePath: 'filePath',
     createdAt: 'createdAt',
     categoryId: 'categoryId',
     status: 'status',
@@ -6513,6 +8666,17 @@ export namespace Prisma {
   };
 
   export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
+
+
+  export const ItemFileScalarFieldEnum: {
+    id: 'id',
+    path: 'path',
+    type: 'type',
+    itemId: 'itemId',
+    createdAt: 'createdAt'
+  };
+
+  export type ItemFileScalarFieldEnum = (typeof ItemFileScalarFieldEnum)[keyof typeof ItemFileScalarFieldEnum]
 
 
   export const PedidoScalarFieldEnum: {
@@ -6544,6 +8708,20 @@ export namespace Prisma {
   };
 
   export type OrcamentoScalarFieldEnum = (typeof OrcamentoScalarFieldEnum)[keyof typeof OrcamentoScalarFieldEnum]
+
+
+  export const HistoricoScalarFieldEnum: {
+    id: 'id',
+    acao: 'acao',
+    entidade: 'entidade',
+    entidadeId: 'entidadeId',
+    dados: 'dados',
+    usuarioId: 'usuarioId',
+    usuarioNome: 'usuarioNome',
+    createdAt: 'createdAt'
+  };
+
+  export type HistoricoScalarFieldEnum = (typeof HistoricoScalarFieldEnum)[keyof typeof HistoricoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6613,6 +8791,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FileType'
+   */
+  export type EnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FileType[]'
+   */
+  export type ListEnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileType[]'>
     
 
 
@@ -6799,13 +8991,12 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringNullableFilter<"Item"> | string | null
-    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
     status?: StringFilter<"Item"> | string
     itemType?: StringNullableFilter<"Item"> | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    files?: ItemFileListRelationFilter
     pedidos?: PedidoListRelationFilter
     orcamentos?: OrcamentoListRelationFilter
   }
@@ -6814,13 +9005,12 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     subname?: SortOrder
-    imagePath?: SortOrder
-    filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
     status?: SortOrder
     itemType?: SortOrder
     category?: CategoryOrderByWithRelationInput
+    files?: ItemFileOrderByRelationAggregateInput
     pedidos?: PedidoOrderByRelationAggregateInput
     orcamentos?: OrcamentoOrderByRelationAggregateInput
   }
@@ -6832,13 +9022,12 @@ export namespace Prisma {
     NOT?: ItemWhereInput | ItemWhereInput[]
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringNullableFilter<"Item"> | string | null
-    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
     status?: StringFilter<"Item"> | string
     itemType?: StringNullableFilter<"Item"> | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    files?: ItemFileListRelationFilter
     pedidos?: PedidoListRelationFilter
     orcamentos?: OrcamentoListRelationFilter
   }, "id">
@@ -6847,8 +9036,6 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     subname?: SortOrder
-    imagePath?: SortOrder
-    filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
     status?: SortOrder
@@ -6865,12 +9052,65 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Item"> | string
     name?: StringWithAggregatesFilter<"Item"> | string
     subname?: StringWithAggregatesFilter<"Item"> | string
-    imagePath?: StringNullableWithAggregatesFilter<"Item"> | string | null
-    filePath?: StringNullableWithAggregatesFilter<"Item"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
     categoryId?: StringWithAggregatesFilter<"Item"> | string
     status?: StringWithAggregatesFilter<"Item"> | string
     itemType?: StringNullableWithAggregatesFilter<"Item"> | string | null
+  }
+
+  export type ItemFileWhereInput = {
+    AND?: ItemFileWhereInput | ItemFileWhereInput[]
+    OR?: ItemFileWhereInput[]
+    NOT?: ItemFileWhereInput | ItemFileWhereInput[]
+    id?: StringFilter<"ItemFile"> | string
+    path?: StringFilter<"ItemFile"> | string
+    type?: EnumFileTypeFilter<"ItemFile"> | $Enums.FileType
+    itemId?: StringFilter<"ItemFile"> | string
+    createdAt?: DateTimeFilter<"ItemFile"> | Date | string
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }
+
+  export type ItemFileOrderByWithRelationInput = {
+    id?: SortOrder
+    path?: SortOrder
+    type?: SortOrder
+    itemId?: SortOrder
+    createdAt?: SortOrder
+    item?: ItemOrderByWithRelationInput
+  }
+
+  export type ItemFileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ItemFileWhereInput | ItemFileWhereInput[]
+    OR?: ItemFileWhereInput[]
+    NOT?: ItemFileWhereInput | ItemFileWhereInput[]
+    path?: StringFilter<"ItemFile"> | string
+    type?: EnumFileTypeFilter<"ItemFile"> | $Enums.FileType
+    itemId?: StringFilter<"ItemFile"> | string
+    createdAt?: DateTimeFilter<"ItemFile"> | Date | string
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+  }, "id">
+
+  export type ItemFileOrderByWithAggregationInput = {
+    id?: SortOrder
+    path?: SortOrder
+    type?: SortOrder
+    itemId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ItemFileCountOrderByAggregateInput
+    _max?: ItemFileMaxOrderByAggregateInput
+    _min?: ItemFileMinOrderByAggregateInput
+  }
+
+  export type ItemFileScalarWhereWithAggregatesInput = {
+    AND?: ItemFileScalarWhereWithAggregatesInput | ItemFileScalarWhereWithAggregatesInput[]
+    OR?: ItemFileScalarWhereWithAggregatesInput[]
+    NOT?: ItemFileScalarWhereWithAggregatesInput | ItemFileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ItemFile"> | string
+    path?: StringWithAggregatesFilter<"ItemFile"> | string
+    type?: EnumFileTypeWithAggregatesFilter<"ItemFile"> | $Enums.FileType
+    itemId?: StringWithAggregatesFilter<"ItemFile"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ItemFile"> | Date | string
   }
 
   export type PedidoWhereInput = {
@@ -7032,6 +9272,73 @@ export namespace Prisma {
     status?: EnumStatusOrcamentoWithAggregatesFilter<"Orcamento"> | $Enums.StatusOrcamento
   }
 
+  export type HistoricoWhereInput = {
+    AND?: HistoricoWhereInput | HistoricoWhereInput[]
+    OR?: HistoricoWhereInput[]
+    NOT?: HistoricoWhereInput | HistoricoWhereInput[]
+    id?: StringFilter<"Historico"> | string
+    acao?: StringFilter<"Historico"> | string
+    entidade?: StringFilter<"Historico"> | string
+    entidadeId?: StringFilter<"Historico"> | string
+    dados?: StringNullableFilter<"Historico"> | string | null
+    usuarioId?: StringNullableFilter<"Historico"> | string | null
+    usuarioNome?: StringNullableFilter<"Historico"> | string | null
+    createdAt?: DateTimeFilter<"Historico"> | Date | string
+  }
+
+  export type HistoricoOrderByWithRelationInput = {
+    id?: SortOrder
+    acao?: SortOrder
+    entidade?: SortOrder
+    entidadeId?: SortOrder
+    dados?: SortOrder
+    usuarioId?: SortOrder
+    usuarioNome?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HistoricoWhereInput | HistoricoWhereInput[]
+    OR?: HistoricoWhereInput[]
+    NOT?: HistoricoWhereInput | HistoricoWhereInput[]
+    acao?: StringFilter<"Historico"> | string
+    entidade?: StringFilter<"Historico"> | string
+    entidadeId?: StringFilter<"Historico"> | string
+    dados?: StringNullableFilter<"Historico"> | string | null
+    usuarioId?: StringNullableFilter<"Historico"> | string | null
+    usuarioNome?: StringNullableFilter<"Historico"> | string | null
+    createdAt?: DateTimeFilter<"Historico"> | Date | string
+  }, "id">
+
+  export type HistoricoOrderByWithAggregationInput = {
+    id?: SortOrder
+    acao?: SortOrder
+    entidade?: SortOrder
+    entidadeId?: SortOrder
+    dados?: SortOrder
+    usuarioId?: SortOrder
+    usuarioNome?: SortOrder
+    createdAt?: SortOrder
+    _count?: HistoricoCountOrderByAggregateInput
+    _max?: HistoricoMaxOrderByAggregateInput
+    _min?: HistoricoMinOrderByAggregateInput
+  }
+
+  export type HistoricoScalarWhereWithAggregatesInput = {
+    AND?: HistoricoScalarWhereWithAggregatesInput | HistoricoScalarWhereWithAggregatesInput[]
+    OR?: HistoricoScalarWhereWithAggregatesInput[]
+    NOT?: HistoricoScalarWhereWithAggregatesInput | HistoricoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Historico"> | string
+    acao?: StringWithAggregatesFilter<"Historico"> | string
+    entidade?: StringWithAggregatesFilter<"Historico"> | string
+    entidadeId?: StringWithAggregatesFilter<"Historico"> | string
+    dados?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    usuarioId?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    usuarioNome?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Historico"> | Date | string
+  }
+
   export type CustomerCreateInput = {
     id?: string
     name: string
@@ -7158,12 +9465,11 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
     category: CategoryCreateNestedOneWithoutItemsInput
+    files?: ItemFileCreateNestedManyWithoutItemInput
     pedidos?: PedidoCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
@@ -7172,12 +9478,11 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
     status?: string
     itemType?: string | null
+    files?: ItemFileUncheckedCreateNestedManyWithoutItemInput
     pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
@@ -7185,12 +9490,11 @@ export namespace Prisma {
   export type ItemUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    files?: ItemFileUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
@@ -7198,12 +9502,11 @@ export namespace Prisma {
   export type ItemUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: ItemFileUncheckedUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
   }
@@ -7212,8 +9515,6 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
     status?: string
@@ -7223,8 +9524,6 @@ export namespace Prisma {
   export type ItemUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7233,12 +9532,61 @@ export namespace Prisma {
   export type ItemUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemFileCreateInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    createdAt?: Date | string
+    item: ItemCreateNestedOneWithoutFilesInput
+  }
+
+  export type ItemFileUncheckedCreateInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    itemId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemFileUpdateInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: ItemUpdateOneRequiredWithoutFilesNestedInput
+  }
+
+  export type ItemFileUncheckedUpdateInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    itemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFileCreateManyInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    itemId: string
+    createdAt?: Date | string
+  }
+
+  export type ItemFileUpdateManyMutationInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFileUncheckedUpdateManyInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    itemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PedidoCreateInput = {
@@ -7404,6 +9752,79 @@ export namespace Prisma {
     valor?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusOrcamentoFieldUpdateOperationsInput | $Enums.StatusOrcamento
+  }
+
+  export type HistoricoCreateInput = {
+    id?: string
+    acao: string
+    entidade: string
+    entidadeId: string
+    dados?: string | null
+    usuarioId?: string | null
+    usuarioNome?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HistoricoUncheckedCreateInput = {
+    id?: string
+    acao: string
+    entidade: string
+    entidadeId: string
+    dados?: string | null
+    usuarioId?: string | null
+    usuarioNome?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HistoricoUpdateInput = {
+    acao?: StringFieldUpdateOperationsInput | string
+    entidade?: StringFieldUpdateOperationsInput | string
+    entidadeId?: StringFieldUpdateOperationsInput | string
+    dados?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioNome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricoUncheckedUpdateInput = {
+    acao?: StringFieldUpdateOperationsInput | string
+    entidade?: StringFieldUpdateOperationsInput | string
+    entidadeId?: StringFieldUpdateOperationsInput | string
+    dados?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioNome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricoCreateManyInput = {
+    id?: string
+    acao: string
+    entidade: string
+    entidadeId: string
+    dados?: string | null
+    usuarioId?: string | null
+    usuarioNome?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HistoricoUpdateManyMutationInput = {
+    acao?: StringFieldUpdateOperationsInput | string
+    entidade?: StringFieldUpdateOperationsInput | string
+    entidadeId?: StringFieldUpdateOperationsInput | string
+    dados?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioNome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricoUncheckedUpdateManyInput = {
+    acao?: StringFieldUpdateOperationsInput | string
+    entidade?: StringFieldUpdateOperationsInput | string
+    entidadeId?: StringFieldUpdateOperationsInput | string
+    dados?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioNome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7606,6 +10027,12 @@ export namespace Prisma {
     isNot?: CategoryWhereInput
   }
 
+  export type ItemFileListRelationFilter = {
+    every?: ItemFileWhereInput
+    some?: ItemFileWhereInput
+    none?: ItemFileWhereInput
+  }
+
   export type PedidoListRelationFilter = {
     every?: PedidoWhereInput
     some?: PedidoWhereInput
@@ -7616,6 +10043,10 @@ export namespace Prisma {
     every?: OrcamentoWhereInput
     some?: OrcamentoWhereInput
     none?: OrcamentoWhereInput
+  }
+
+  export type ItemFileOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PedidoOrderByRelationAggregateInput = {
@@ -7630,8 +10061,6 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     subname?: SortOrder
-    imagePath?: SortOrder
-    filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
     status?: SortOrder
@@ -7642,8 +10071,6 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     subname?: SortOrder
-    imagePath?: SortOrder
-    filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
     status?: SortOrder
@@ -7654,8 +10081,6 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     subname?: SortOrder
-    imagePath?: SortOrder
-    filePath?: SortOrder
     createdAt?: SortOrder
     categoryId?: SortOrder
     status?: SortOrder
@@ -7681,6 +10106,52 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type EnumFileTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FileType | EnumFileTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFileTypeFilter<$PrismaModel> | $Enums.FileType
+  }
+
+  export type ItemScalarRelationFilter = {
+    is?: ItemWhereInput
+    isNot?: ItemWhereInput
+  }
+
+  export type ItemFileCountOrderByAggregateInput = {
+    id?: SortOrder
+    path?: SortOrder
+    type?: SortOrder
+    itemId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ItemFileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    path?: SortOrder
+    type?: SortOrder
+    itemId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ItemFileMinOrderByAggregateInput = {
+    id?: SortOrder
+    path?: SortOrder
+    type?: SortOrder
+    itemId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FileType | EnumFileTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFileTypeWithAggregatesFilter<$PrismaModel> | $Enums.FileType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFileTypeFilter<$PrismaModel>
+    _max?: NestedEnumFileTypeFilter<$PrismaModel>
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -7697,11 +10168,6 @@ export namespace Prisma {
     in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusPedidoFilter<$PrismaModel> | $Enums.StatusPedido
-  }
-
-  export type ItemScalarRelationFilter = {
-    is?: ItemWhereInput
-    isNot?: ItemWhereInput
   }
 
   export type PedidoCountOrderByAggregateInput = {
@@ -7867,6 +10333,39 @@ export namespace Prisma {
     _max?: NestedEnumStatusOrcamentoFilter<$PrismaModel>
   }
 
+  export type HistoricoCountOrderByAggregateInput = {
+    id?: SortOrder
+    acao?: SortOrder
+    entidade?: SortOrder
+    entidadeId?: SortOrder
+    dados?: SortOrder
+    usuarioId?: SortOrder
+    usuarioNome?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    acao?: SortOrder
+    entidade?: SortOrder
+    entidadeId?: SortOrder
+    dados?: SortOrder
+    usuarioId?: SortOrder
+    usuarioNome?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricoMinOrderByAggregateInput = {
+    id?: SortOrder
+    acao?: SortOrder
+    entidade?: SortOrder
+    entidadeId?: SortOrder
+    dados?: SortOrder
+    usuarioId?: SortOrder
+    usuarioNome?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -7936,6 +10435,13 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type ItemFileCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput> | ItemFileCreateWithoutItemInput[] | ItemFileUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemFileCreateOrConnectWithoutItemInput | ItemFileCreateOrConnectWithoutItemInput[]
+    createMany?: ItemFileCreateManyItemInputEnvelope
+    connect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+  }
+
   export type PedidoCreateNestedManyWithoutItemInput = {
     create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
     connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
@@ -7948,6 +10454,13 @@ export namespace Prisma {
     connectOrCreate?: OrcamentoCreateOrConnectWithoutItemInput | OrcamentoCreateOrConnectWithoutItemInput[]
     createMany?: OrcamentoCreateManyItemInputEnvelope
     connect?: OrcamentoWhereUniqueInput | OrcamentoWhereUniqueInput[]
+  }
+
+  export type ItemFileUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput> | ItemFileCreateWithoutItemInput[] | ItemFileUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemFileCreateOrConnectWithoutItemInput | ItemFileCreateOrConnectWithoutItemInput[]
+    createMany?: ItemFileCreateManyItemInputEnvelope
+    connect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
   }
 
   export type PedidoUncheckedCreateNestedManyWithoutItemInput = {
@@ -7975,6 +10488,20 @@ export namespace Prisma {
     upsert?: CategoryUpsertWithoutItemsInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutItemsInput, CategoryUpdateWithoutItemsInput>, CategoryUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type ItemFileUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput> | ItemFileCreateWithoutItemInput[] | ItemFileUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemFileCreateOrConnectWithoutItemInput | ItemFileCreateOrConnectWithoutItemInput[]
+    upsert?: ItemFileUpsertWithWhereUniqueWithoutItemInput | ItemFileUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemFileCreateManyItemInputEnvelope
+    set?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    disconnect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    delete?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    connect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    update?: ItemFileUpdateWithWhereUniqueWithoutItemInput | ItemFileUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemFileUpdateManyWithWhereWithoutItemInput | ItemFileUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemFileScalarWhereInput | ItemFileScalarWhereInput[]
   }
 
   export type PedidoUpdateManyWithoutItemNestedInput = {
@@ -8005,6 +10532,20 @@ export namespace Prisma {
     deleteMany?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
   }
 
+  export type ItemFileUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput> | ItemFileCreateWithoutItemInput[] | ItemFileUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemFileCreateOrConnectWithoutItemInput | ItemFileCreateOrConnectWithoutItemInput[]
+    upsert?: ItemFileUpsertWithWhereUniqueWithoutItemInput | ItemFileUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemFileCreateManyItemInputEnvelope
+    set?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    disconnect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    delete?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    connect?: ItemFileWhereUniqueInput | ItemFileWhereUniqueInput[]
+    update?: ItemFileUpdateWithWhereUniqueWithoutItemInput | ItemFileUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemFileUpdateManyWithWhereWithoutItemInput | ItemFileUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemFileScalarWhereInput | ItemFileScalarWhereInput[]
+  }
+
   export type PedidoUncheckedUpdateManyWithoutItemNestedInput = {
     create?: XOR<PedidoCreateWithoutItemInput, PedidoUncheckedCreateWithoutItemInput> | PedidoCreateWithoutItemInput[] | PedidoUncheckedCreateWithoutItemInput[]
     connectOrCreate?: PedidoCreateOrConnectWithoutItemInput | PedidoCreateOrConnectWithoutItemInput[]
@@ -8031,6 +10572,24 @@ export namespace Prisma {
     update?: OrcamentoUpdateWithWhereUniqueWithoutItemInput | OrcamentoUpdateWithWhereUniqueWithoutItemInput[]
     updateMany?: OrcamentoUpdateManyWithWhereWithoutItemInput | OrcamentoUpdateManyWithWhereWithoutItemInput[]
     deleteMany?: OrcamentoScalarWhereInput | OrcamentoScalarWhereInput[]
+  }
+
+  export type ItemCreateNestedOneWithoutFilesInput = {
+    create?: XOR<ItemCreateWithoutFilesInput, ItemUncheckedCreateWithoutFilesInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutFilesInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type EnumFileTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FileType
+  }
+
+  export type ItemUpdateOneRequiredWithoutFilesNestedInput = {
+    create?: XOR<ItemCreateWithoutFilesInput, ItemUncheckedCreateWithoutFilesInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutFilesInput
+    upsert?: ItemUpsertWithoutFilesInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutFilesInput, ItemUpdateWithoutFilesInput>, ItemUncheckedUpdateWithoutFilesInput>
   }
 
   export type ItemCreateNestedOneWithoutPedidosInput = {
@@ -8254,6 +10813,23 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedEnumFileTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FileType | EnumFileTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFileTypeFilter<$PrismaModel> | $Enums.FileType
+  }
+
+  export type NestedEnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FileType | EnumFileTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FileType[] | ListEnumFileTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFileTypeWithAggregatesFilter<$PrismaModel> | $Enums.FileType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFileTypeFilter<$PrismaModel>
+    _max?: NestedEnumFileTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumStatusPedidoFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusPedido | EnumStatusPedidoFieldRefInput<$PrismaModel>
     in?: $Enums.StatusPedido[] | ListEnumStatusPedidoFieldRefInput<$PrismaModel>
@@ -8335,11 +10911,10 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
+    files?: ItemFileCreateNestedManyWithoutItemInput
     pedidos?: PedidoCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
@@ -8348,11 +10923,10 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
+    files?: ItemFileUncheckedCreateNestedManyWithoutItemInput
     pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
@@ -8389,8 +10963,6 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     subname?: StringFilter<"Item"> | string
-    imagePath?: StringNullableFilter<"Item"> | string | null
-    filePath?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     categoryId?: StringFilter<"Item"> | string
     status?: StringFilter<"Item"> | string
@@ -8414,6 +10986,29 @@ export namespace Prisma {
   export type CategoryCreateOrConnectWithoutItemsInput = {
     where: CategoryWhereUniqueInput
     create: XOR<CategoryCreateWithoutItemsInput, CategoryUncheckedCreateWithoutItemsInput>
+  }
+
+  export type ItemFileCreateWithoutItemInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    createdAt?: Date | string
+  }
+
+  export type ItemFileUncheckedCreateWithoutItemInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    createdAt?: Date | string
+  }
+
+  export type ItemFileCreateOrConnectWithoutItemInput = {
+    where: ItemFileWhereUniqueInput
+    create: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemFileCreateManyItemInputEnvelope = {
+    data: ItemFileCreateManyItemInput | ItemFileCreateManyItemInput[]
   }
 
   export type PedidoCreateWithoutItemInput = {
@@ -8503,6 +11098,33 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ItemFileUpsertWithWhereUniqueWithoutItemInput = {
+    where: ItemFileWhereUniqueInput
+    update: XOR<ItemFileUpdateWithoutItemInput, ItemFileUncheckedUpdateWithoutItemInput>
+    create: XOR<ItemFileCreateWithoutItemInput, ItemFileUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemFileUpdateWithWhereUniqueWithoutItemInput = {
+    where: ItemFileWhereUniqueInput
+    data: XOR<ItemFileUpdateWithoutItemInput, ItemFileUncheckedUpdateWithoutItemInput>
+  }
+
+  export type ItemFileUpdateManyWithWhereWithoutItemInput = {
+    where: ItemFileScalarWhereInput
+    data: XOR<ItemFileUpdateManyMutationInput, ItemFileUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type ItemFileScalarWhereInput = {
+    AND?: ItemFileScalarWhereInput | ItemFileScalarWhereInput[]
+    OR?: ItemFileScalarWhereInput[]
+    NOT?: ItemFileScalarWhereInput | ItemFileScalarWhereInput[]
+    id?: StringFilter<"ItemFile"> | string
+    path?: StringFilter<"ItemFile"> | string
+    type?: EnumFileTypeFilter<"ItemFile"> | $Enums.FileType
+    itemId?: StringFilter<"ItemFile"> | string
+    createdAt?: DateTimeFilter<"ItemFile"> | Date | string
+  }
+
   export type PedidoUpsertWithWhereUniqueWithoutItemInput = {
     where: PedidoWhereUniqueInput
     update: XOR<PedidoUpdateWithoutItemInput, PedidoUncheckedUpdateWithoutItemInput>
@@ -8566,16 +11188,77 @@ export namespace Prisma {
     status?: EnumStatusOrcamentoFilter<"Orcamento"> | $Enums.StatusOrcamento
   }
 
-  export type ItemCreateWithoutPedidosInput = {
+  export type ItemCreateWithoutFilesInput = {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
     category: CategoryCreateNestedOneWithoutItemsInput
+    pedidos?: PedidoCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemUncheckedCreateWithoutFilesInput = {
+    id?: string
+    name: string
+    subname: string
+    createdAt?: Date | string
+    categoryId: string
+    status?: string
+    itemType?: string | null
+    pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
+    orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutFilesInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutFilesInput, ItemUncheckedCreateWithoutFilesInput>
+  }
+
+  export type ItemUpsertWithoutFilesInput = {
+    update: XOR<ItemUpdateWithoutFilesInput, ItemUncheckedUpdateWithoutFilesInput>
+    create: XOR<ItemCreateWithoutFilesInput, ItemUncheckedCreateWithoutFilesInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutFilesInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutFilesInput, ItemUncheckedUpdateWithoutFilesInput>
+  }
+
+  export type ItemUpdateWithoutFilesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subname?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    pedidos?: PedidoUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutFilesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subname?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
+    orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemCreateWithoutPedidosInput = {
+    id?: string
+    name: string
+    subname: string
+    createdAt?: Date | string
+    status?: string
+    itemType?: string | null
+    category: CategoryCreateNestedOneWithoutItemsInput
+    files?: ItemFileCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoCreateNestedManyWithoutItemInput
   }
 
@@ -8583,12 +11266,11 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
     status?: string
     itemType?: string | null
+    files?: ItemFileUncheckedCreateNestedManyWithoutItemInput
     orcamentos?: OrcamentoUncheckedCreateNestedManyWithoutItemInput
   }
 
@@ -8611,24 +11293,22 @@ export namespace Prisma {
   export type ItemUpdateWithoutPedidosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    files?: ItemFileUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutPedidosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: ItemFileUncheckedUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
   }
 
@@ -8636,12 +11316,11 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
     category: CategoryCreateNestedOneWithoutItemsInput
+    files?: ItemFileCreateNestedManyWithoutItemInput
     pedidos?: PedidoCreateNestedManyWithoutItemInput
   }
 
@@ -8649,12 +11328,11 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     categoryId: string
     status?: string
     itemType?: string | null
+    files?: ItemFileUncheckedCreateNestedManyWithoutItemInput
     pedidos?: PedidoUncheckedCreateNestedManyWithoutItemInput
   }
 
@@ -8677,24 +11355,22 @@ export namespace Prisma {
   export type ItemUpdateWithoutOrcamentosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutItemsNestedInput
+    files?: ItemFileUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutOrcamentosInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: ItemFileUncheckedUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
   }
 
@@ -8702,8 +11378,6 @@ export namespace Prisma {
     id?: string
     name: string
     subname: string
-    imagePath?: string | null
-    filePath?: string | null
     createdAt?: Date | string
     status?: string
     itemType?: string | null
@@ -8712,11 +11386,10 @@ export namespace Prisma {
   export type ItemUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: ItemFileUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUpdateManyWithoutItemNestedInput
   }
@@ -8724,11 +11397,10 @@ export namespace Prisma {
   export type ItemUncheckedUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: ItemFileUncheckedUpdateManyWithoutItemNestedInput
     pedidos?: PedidoUncheckedUpdateManyWithoutItemNestedInput
     orcamentos?: OrcamentoUncheckedUpdateManyWithoutItemNestedInput
   }
@@ -8736,11 +11408,16 @@ export namespace Prisma {
   export type ItemUncheckedUpdateManyWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     subname?: StringFieldUpdateOperationsInput | string
-    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     itemType?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemFileCreateManyItemInput = {
+    id?: string
+    path: string
+    type: $Enums.FileType
+    createdAt?: Date | string
   }
 
   export type PedidoCreateManyItemInput = {
@@ -8764,6 +11441,24 @@ export namespace Prisma {
     valor: number
     createdAt?: Date | string
     status?: $Enums.StatusOrcamento
+  }
+
+  export type ItemFileUpdateWithoutItemInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFileUncheckedUpdateWithoutItemInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFileUncheckedUpdateManyWithoutItemInput = {
+    path?: StringFieldUpdateOperationsInput | string
+    type?: EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PedidoUpdateWithoutItemInput = {

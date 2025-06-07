@@ -41,4 +41,3 @@ export async function getCategoryById(request: FastifyRequest, reply: FastifyRep
     return reply.status(500).send({ message: "Erro ao buscar categoria", error: err });
   }
 }
-
