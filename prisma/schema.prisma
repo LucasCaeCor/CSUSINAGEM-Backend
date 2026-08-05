@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+  ELIABE
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_ANDAMENTO
+  CONCLUIDO
+  CANCELADO
+}
+
+enum StatusOrcamento {
+  PENDENTE
+  APROVADO
+  REJEITADO
+  CANCELADO
+  EM_ANDAMENTO
+}
+
+enum FileType {
+  PDF
+  DWG
+  IMAGE
+  OTHER
+}
+
+model Customer {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  email      String    @unique
+  password   String
+  status     Boolean
+  role       Role      @default(USER)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("customers")
+}
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  imagePath String
+  createdAt DateTime @default(now())
+  items     Item[]
+
+  @@map("categories")
+}
+
+model Item {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  subname     String
+  createdAt   DateTime    @default(now())
+  categoryId  String      @db.ObjectId
+  status      String      @default("PENDENTE")
+  category    Category    @relation(fields: [categoryId], references: [id])
+  itemType    String?
+  files       ItemFile[]
+  pedidos     Pedido[]
+  orcamentos  Orcamento[]
+
+  @@map("items")
+}
+
+model ItemFile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  path      String
+  type      FileType
+  googleDriveId String?
+  item      Item     @relation(fields: [itemId], references: [id])
+  itemId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  @@map("item_files")
+}
+
+model Pedido {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade  Int
+  material    String
+  description String?  // Novo campo
+  dataEmissao DateTime
+  operacao    String
+  cliente     String?
+  itemId      String   @db.ObjectId
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  status      StatusPedido @default(PENDENTE)
+
+  @@map("pedidos")
+}
+
+model Orcamento {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade  Int
+  material    String
+  dataEmissao DateTime
+  operacao    String
+  cliente     String?
+  itemId      String   @db.ObjectId
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  valor       Float
+  createdAt   DateTime @default(now())
+  status      StatusOrcamento @default(PENDENTE)
+
+  @@map("orcamentos")
+}
+
+model Historico {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  acao        String
+  entidade    String
+  entidadeId  String   @db.ObjectId
+  dados       String?
+  usuarioId   String?  @db.ObjectId
+  usuarioNome String?
+  createdAt   DateTime @default(now())
+
+  @@map("historico")
+}
+
+model OrcamentoPdf {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  numero        Int      @unique
+  data          DateTime
+  cliente       String?
+  cnpj          String?
+  prazoEntrega  String
+  frete         String
+  condPagamento String
+  items         Json
+  valorTotal    Float
+  cfop          String?
+  valorIcms     Float?
+  valorIpi      Float?
+  valorIss      Float?
+  observacao    String?
+  pdfPath       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  @@map("orcamento_pdfs")
+}
+
+model Sequence {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  value Int
+}
+
+model Empresa {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome              String
+  cnpj              String?
+  contato           String?
+  email             String?
+  telefone          String?
+  endereco          String?
+  inscricaoEstadual String?
+  status            String   @default("ativo")
+  tags              String[]
+  observacoes       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+
+  @@map("empresas")
+}
+
+model Ferramenta {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome             String
+  tipo             String
+  descricao        String?
+  quantidade       Int      @default(0)
+  quantidadeMinima Int      @default(1)
+  unidade          String   @default("un")
+  fabricante       String?
+  referencia       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+
+  @@map("ferramentas")
+}
+
+model PedidoCompra {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  ferramentaId   String?  @db.ObjectId
+  ferramentaNome String
+  quantidade     Int
+  observacao     String?
+  status         String   @default("pendente")
+  isAvulso       Boolean  @default(false)
+  solicitante    String?
+  createdAt      DateTime @default(now())
+
+  @@map("pedidos_compra")
+}
