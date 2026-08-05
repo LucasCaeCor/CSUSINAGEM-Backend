@@ -361,10 +361,15 @@ export async function generatePdf(orcamento: OrcamentoPdf): Promise<Buffer> {
             .stroke();
 
         doc.font('Helvetica').fontSize(8);
-        doc.text(`Página ${doc._pageCount}`, pageRightMargin - 50, doc.page.height - 40, {
-            align: 'right',
-            width: 50
-        });
+
+const pageNumberY =
+    doc.page.height - doc.page.margins.bottom - 12;
+
+doc.text('Página 1', pageRightMargin - 80, pageNumberY, {
+    align: 'right',
+    width: 80,
+    lineBreak: false
+});
 
         doc.end();
     });
